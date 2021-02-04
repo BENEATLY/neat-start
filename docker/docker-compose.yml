@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  neat-start-centos-7:
+    image: neat-start:centos-7
+    container_name: neat-start-centos-7
+    volumes:
+      - ./neat-start/config/:/etc/neatly/base/
+      - ./neat-start/lib/:/var/lib/neatly/base/
+      - ./neat-start/bin/:/tmp/neatly/base/bin/
+      - ./neat-start/system/:/tmp/neatly/base/system/
+      - ./neat-start/opt/gui/:/opt/neatly/base/gui/
+      - ./logs/:/var/log/neatly/base
+    ports:
+      - 7001:7001
+      - 7002:80
+      - 7003:443
+      - 8001:8001
+      - 9001:5432
+    environment:
+      - NG_CLI_ANALYTICS=false
