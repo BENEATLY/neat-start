@@ -1,0 +1,29 @@
+{
+    "basePath": "/api/",
+    "debug": false,
+    "getCallConfig": {
+        "ActiveSession": {
+            "user": "Public"
+        },
+        "ApiAction": {},
+        "ApiObject": {},
+        "File": {
+            "uploader": "Public"
+        },
+        "Function": {},
+        "Right": {
+            "function": "Public",
+            "team": "Public"
+        },
+        "Team": {},
+        "Translation": {},
+        "User": {
+            "function": "Public",
+            "team": "Public",
+            "image": "Public"
+        }
+    },
+    "port": 8001,
+    "protocol": "http",
+    "version": "1.0.0"
+}

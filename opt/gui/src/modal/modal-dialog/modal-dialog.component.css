@@ -1,0 +1,10 @@
+/*
+  Author:     Thomas D'haenens
+  Company:    Neatly (https://neatly.be/)
+  Created:    5/01/2020 12:32
+  License:    Commercial (see EULA)
+*/
+
+/* Scrollbar */
+::-webkit-scrollbar { -webkit-appearance: none; height: 5px; width: 5px; }
+::-webkit-scrollbar-thumb { border-radius: 5px; background-color: rgba(0,0,0,.5); -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5); }

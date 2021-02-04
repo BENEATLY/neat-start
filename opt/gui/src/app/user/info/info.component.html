@@ -1,0 +1,260 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Result Div -->
+<div *ngIf="rightLib.sufficientRights(data.userData.right, objectDefinition, 'Get List', 'own')" class="result-div with-footer">
+
+<!-- Navigation Header -->
+<div class="nav-header">
+
+  <!-- Navigation -->
+  <nav>
+    <ol class="breadcrumb">
+      <ng-container *ngFor="let item of navigationLib.getNavItems(appConfig.config, data.routes.routes, route.snapshot.url); let index = index; let count = count;">
+        <li *ngIf="objLib.lookUpKey(item, 'name')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span [translate]="item.name"></span>
+        </li>
+        <li *ngIf="objLib.lookUpKey(item, 'value')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span>{{item.value}}</span>
+        </li>
+      </ng-container>
+    </ol>
+  </nav>
+
+</div>
+
+<!-- Results -->
+<div *ngIf="!objLib.isEmptyObject(data.userData.info)" class="results center">
+
+  <!-- Greeting -->
+  <div class="greeting-title">{{ greetingTitle }}</div>
+
+  <!-- Boxes -->
+  <div class="row nomargin justify">
+
+    <!-- Show Personal Info -->
+    <div class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="white-box">
+
+        <!-- Header -->
+        <div class="header" [translate]="'user.info.personal-details'"></div>
+
+        <!-- Table -->
+        <table class="info-table">
+          <tbody>
+
+            <!-- Format User Info -->
+            <ng-container *ngFor="let property of formatLib.formatInfo(appConfig.config, 'User', data.userData.info, 'own')">
+
+              <!-- Property Info -->
+              <tr>
+
+                <!-- Property Name -->
+                <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                  <p class="line-property-name" [translate]="translateLib.constructPropertyName(objectDefinition, property)"></p>
+                </td>
+
+                <!-- Property Value -->
+                <td class="left-text">
+
+                  <!-- Presentable (N/A) -->
+                  <ng-container *ngIf="valLib.hasPresentableValue(property.value, property)">
+
+                    <!-- Value Presentation -->
+                    <p [ngClass]="{'table-icon': presentLib.compressContent(property), 'html-present': (!presentLib.compressContent(property))}" *ngIf="valLib.hasValuePresentation(property.value, property)" class="line-property-value">
+                      <span *ngIf="(!presentLib.compressContent(property))" class="value-present" [innerHtml]="presentLib.applyVisualision(property.value, property, data.userData.info, timezone, {'info': true}) | safe: 'html'"></span>
+                      <img *ngIf="presentLib.compressContent(property) && (!((property.value == null) || (valLib.isJson(property) && (property.value.length < 3)) || ((!valLib.isJson(property)) && (property.value.length == 0))))" [src]="'/assets/svgs/eye-gradient.svg'" (click)="modalLib.longContentModal(modalService, {'value': property.value, 'property': property, 'title': translate.instant(translateLib.constructPropertyName(objectDefinition, property))})">
+                    </p>
+
+                    <!-- Custom Presentation -->
+                    <p class="line-property-value html-present" *ngIf="valLib.hasCustomPresentation(property.value, property)" [ngClass]="{'table-icon': valLib.isDownloadAbleFile(property)}">
+                      <img *ngIf="valLib.isImageFile(property)" (click)="focusLib.imageFocus(focusService, {'property': property, 'object': {'name': objectDefinition, 'val': property.value}})" [src]="'/assets/svgs/image-gradient.svg'">
+                      <img *ngIf="valLib.isDownloadAbleFile(property)" (click)="fileLib.downloadFile(property, property.value, cookieService, http, snackBar)" [src]="'/assets/svgs/download-gradient.svg'">
+                      <ng-container *ngIf="(!valLib.isIconOnly(property))">
+                        <span *ngIf="(!valLib.isLinked(property))" class="value-present">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, property.value, property) }}</span>
+                        <span *ngIf="valLib.isLinked(property)" class="value-present linked" (click)="navigationLib.subNav(router, route.snapshot.url, objectDefinition, data.userData.info, property, property.value)">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, property.value, property) }}</span>
+                      </ng-container>
+                    </p>
+
+                    <!-- List Presentation -->
+                    <p *ngIf="valLib.hasListPresentation(property.value, property)" class="line-property-value html-present">
+                      <span class="value-present">
+                        <ng-container *ngFor="let val of property.value; let index = index; let count = count;">
+                          <span *ngIf="valLib.isLinked(property)" class="linked" (click)="navigationLib.subNav(router, route.snapshot.url, objectDefinition, data.userData.info, property, val)">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                          <span *ngIf="(!valLib.isLinked(property))" class="text">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                          <span *ngIf="(index < (count-2))" class="text comma">,</span>
+                          <span *ngIf="(index == (count-2))" class="text ampersand">&</span>
+                        </ng-container>
+                      </span>
+                    </p>
+
+                    <!-- 'Any' Presentation -->
+                    <p *ngIf="valLib.hasAnyPresentation(property.value, property)" class="line-property-value">
+                      <span class="value-present">*</span>
+                    </p>
+
+                    <!-- Boolean Presentation -->
+                   <div *ngIf="valLib.hasBooleanPresentation(property.value, property)" class="line-property-value">
+                     <input class="table-checkbox" type="checkbox" [checked]="property.value" [disabled]="(!property.value)">
+                   </div>
+
+                  </ng-container>
+
+                  <!-- Not Presentable (N/A) -->
+                  <ng-container *ngIf="!valLib.hasPresentableValue(property.value, property)">
+                    <p *ngIf="valLib.hasNAPresentation(property.value, property)" class="line-property-value">
+                      <span class="value-present" [translate]="'common.table.notavailable'"></span>
+                    </p>
+                    <p *ngIf="!valLib.hasNAPresentation(property.value, property)" class="line-property-value"></p>
+                  </ng-container>
+
+                </td>
+
+                <!-- Action -->
+                <td class="info-table-icon">
+
+                  <!-- Edit Modal -->
+                  <img *ngIf="valLib.isEditable(property)" (click)="modalLib.propertyModal(modalService, [property], {'object': {'name': objectDefinition, 'val': data.userData.info}, 'config': appConfig.config, 'route': route, 'title': translate.instant(translateLib.constructModalTitleTranslation(objectDefinition, 'edit'), {item: data.userData.info}), 'type': 'Edit', 'accessLevel': 'own'}, jquery('#update-required'))" [src]="'/assets/svgs/edit-gradient.svg'">
+
+                </td>
+
+              </tr>
+
+            </ng-container>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- Show Timezone -->
+    <div class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="white-box">
+
+        <!-- Header -->
+        <div class="header">
+          {{ 'user.info.timezone' | translate }}
+          <img (click)="routeLib.navigate(router, 'user/timezone')" [src]="'/assets/svgs/info-gradient.svg'">
+        </div>
+
+        <!-- Results -->
+        <div class="row nomargin flex-overlay map-in-box" [ngStyle]="{'height': 'calc(100% - 39px)'}">
+
+          <!-- Load Map Animation -->
+          <div class="mgl-map-overlay" [ngStyle]="{'height': '100%', 'opacity': (((map != null) && objLib.lookUpKey(map, 'rendering') && map.rendering.done)?0:1), 'visibility': (((map != null) && objLib.lookUpKey(map, 'rendering') && map.rendering.done)?'hidden':'visible')}">
+            <div class="middle-div">
+
+              <!-- Progress Bar -->
+              <div class="progress progress-bar-center map-progress-bar-center">
+                <div class="progress-bar progress-bar-striped map-progress-bar active" role="progressbar" [ngStyle]="{'width': (((map != null) && objLib.lookUpKey(map, 'rendering'))?(map.rendering.meta.progress.toString() + '%'):'0%')}">
+                </div>
+              </div>
+
+              <!-- Progress Info -->
+              <p class="map-progress">
+                {{ (((map != null) && objLib.lookUpKey(map, 'rendering'))?(map.rendering.meta.progress.toString() + '%'):'0%') }} - {{ (((map != null) && objLib.lookUpKey(map, 'rendering'))?map.rendering.meta.action:'common.map.initialisingmap') | translate | uppercase }}
+              </p>
+
+            </div>
+          </div>
+
+          <!-- MapBox Map -->
+          <mgl-map *ngIf="map" id="map" [ngClass]="{'loaded': ((map != null) && objLib.lookUpKey(map, 'rendering') && map.rendering.done)}" [style]="map.style" [zoom]="map.zoom" [center]="map.center" [ngStyle]="{'height': '100%', 'width': '100%', 'margin-left': '-100%'}" (load)="mapLib.mapRenderUpdate(map, 'load')" (dataLoading)="mapLib.mapRenderUpdate(map, 'data')" (sourceDataLoading)="mapLib.mapRenderUpdate(map, 'sourceData')">
+
+            <!-- MapBox Layers -->
+            <ng-container *ngIf="map">
+              <mgl-layer *ngFor="let layer of map.layer" [id]="layer.name" [type]="layer.type" [source]="layer.source" [layout]="layer.layout" [paint]="layer.paint"></mgl-layer>
+            </ng-container>
+
+          </mgl-map>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Others -->
+    <div class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="availableheight vertical-row">
+
+        <!-- Language -->
+        <div class="row-4">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'user.info.language' | translate }}
+              <img (click)="routeLib.navigate(router, 'user/language')" [src]="'/assets/svgs/edit-gradient.svg'">
+            </div>
+
+            <!-- Content -->
+            <div>
+              <span class="flag-icon flag-icon-{{translation.translation.flag}} white-box-flag"></span>
+              <p class="white-box-flag-text">{{ translation.translation.language }}</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Active Sessions -->
+        <div *ngIf="rightLib.sufficientRights(data.userData.right, 'ActiveSession', 'Get List', 'own')" class="row-4">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'user.info.session' | translate }}
+              <img (click)="routeLib.navigate(router, 'user/session')" [src]="'/assets/svgs/edit-gradient.svg'">
+            </div>
+
+            <!-- Content -->
+            <div *ngIf="resultInfo.activesession" class="white-box-text">{{ 'user.info.session-message' | translate:{'amount': resultInfo.activesession.length.toString()} }}</div>
+
+          </div>
+        </div>
+
+        <!-- Log Out -->
+        <div class="row-4">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header" [translate]="'user.info.logout'"></div>
+
+            <!-- Content -->
+            <button (click)="routeLib.navigate(router, 'user/logout')" class="white-box-button up">
+              <img [src]="'/assets/svgs/logout.svg'">
+              <p [translate]="'user.info.logout'"></p>
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="credit-footer">
+
+  <!-- Logo -->
+  <a *ngIf="presentLib.getFooterLogo(appConfig.config)" [attr.href]="presentLib.getFooterLogoLink(appConfig.config)" target="_blank">
+    <img [src]="presentLib.getFooterLogo(appConfig.config)" class="logo">
+  </a>
+
+  <!-- Copyright -->
+  <p *ngIf="presentLib.getFooterCopyright(appConfig.config)" class="copyright">Copyright © {{ timeLib.getCurrentYear() }}</p>
+
+  <!-- Contact -->
+  <a *ngIf="presentLib.getFooterContactLink(appConfig.config)" [attr.href]="presentLib.getFooterContactLink(appConfig.config)" target="_blank">
+    <p class="contact" [translate]="'common.button.contact'"></p>
+  </a>
+
+</div>
+
+</div>

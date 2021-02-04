@@ -1,0 +1,1655 @@
+{
+    "apiRootUrl": "http://<<ip-address>>/api/",
+    "definitions": {
+        "Object": {
+            "ActiveSession": {
+                "all": [
+                    {
+                        "accepted": {
+                            "format": "ip",
+                            "max": 15,
+                            "min": 7,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "ip",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "property": "client",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "creation",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "lastActive",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}user/list",
+                            "nullable": false,
+                            "presentation": "${firstName} ${lastName}",
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 3,
+                        "property": "user",
+                        "reference": "User",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "format": "ip",
+                            "max": 15,
+                            "min": 7,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "ip",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "property": "client",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "creation",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "lastActive",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}user/list",
+                            "nullable": false,
+                            "presentation": "${firstName} ${lastName}",
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 3,
+                        "property": "user",
+                        "reference": "User",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "format": "ip",
+                            "max": 15,
+                            "min": 7,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "ip",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "property": "client",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "creation",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "lastActive",
+                        "value": ""
+                    }
+                ]
+            },
+            "ApiAction": {
+                "all": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ]
+            },
+            "ApiObject": {
+                "all": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ]
+            },
+            "File": {
+                "all": [
+                    {
+                        "accepted": {
+                            "type": "File-Raw",
+                            "max": 40,
+                            "multiple": false,
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "property": "name",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "String",
+                            "min": 100,
+                            "max": 100,
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "property": "reference",
+                        "value": "",
+                        "visible": false
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}user/list",
+                            "type": "Id",
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "property": "uploader",
+                        "reference": "User",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "property": "creation",
+                        "value": "",
+                        "visible": false
+                    },
+                    {
+                        "accepted": {
+                            "type": "Number",
+                            "min": 0,
+                            "unit": "kB"
+                        },
+                        "column": false,
+                        "property": "size",
+                        "value": 0,
+                        "visible": false
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "type": "File-Raw",
+                            "max": 40,
+                            "multiple": false,
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "property": "name",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "String",
+                            "min": 100,
+                            "max": 100,
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "property": "reference",
+                        "value": "",
+                        "visible": false
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}user/list",
+                            "type": "Id",
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "implicit": true,
+                        "property": "uploader",
+                        "reference": "User",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "property": "creation",
+                        "value": "",
+                        "visible": false
+                    },
+                    {
+                        "accepted": {
+                            "type": "Number",
+                            "min": 0,
+                            "unit": "kB"
+                        },
+                        "column": false,
+                        "property": "size",
+                        "value": 0,
+                        "visible": false
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "type": "File-Raw",
+                            "max": 40,
+                            "multiple": false,
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "property": "name",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "type": "String",
+                            "min": 100,
+                            "max": 100,
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "property": "reference",
+                        "value": "",
+                        "visible": false
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}user/list",
+                            "type": "Id",
+                            "nullable": false
+                        },
+                        "editable": false,
+                        "implicit": true,
+                        "property": "uploader",
+                        "reference": "User",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "editable": false,
+                        "property": "creation",
+                        "value": "",
+                        "visible": false
+                    },
+                    {
+                        "accepted": {
+                            "type": "Number",
+                            "min": 0,
+                            "unit": "kB"
+                        },
+                        "column": false,
+                        "property": "size",
+                        "value": 0,
+                        "visible": false
+                    }
+                ]
+            },
+            "Function": {
+                "all": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ]
+            },
+            "Right": {
+                "all": [
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}apiobject/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "apiobject",
+                        "reference": "ApiObject",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}apiaction/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "apiaction",
+                        "reference": "ApiAction",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}team/list",
+                            "type": "List"
+                        },
+                        "property": "team",
+                        "reference": "Team",
+                        "value": [],
+                        "linked": true,
+                        "any": true
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}function/list",
+                            "type": "List"
+                        },
+                        "property": "function",
+                        "reference": "Function",
+                        "value": [],
+                        "linked": true,
+                        "any": true
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "own",
+                        "value": false
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "isolated",
+                        "value": false
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "all",
+                        "value": false
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}apiobject/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "apiobject",
+                        "reference": "ApiObject",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}apiaction/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "apiaction",
+                        "reference": "ApiAction",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}team/list",
+                            "type": "List"
+                        },
+                        "property": "team",
+                        "reference": "Team",
+                        "value": [],
+                        "linked": true,
+                        "any": true
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}function/list",
+                            "type": "List"
+                        },
+                        "property": "function",
+                        "reference": "Function",
+                        "value": [],
+                        "linked": true,
+                        "any": true
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "own",
+                        "value": false
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "isolated",
+                        "value": false
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "all",
+                        "value": false
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}apiobject/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "apiobject",
+                        "reference": "ApiObject",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}apiaction/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "apiaction",
+                        "reference": "ApiAction",
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}team/list",
+                            "type": "List"
+                        },
+                        "property": "team",
+                        "reference": "Team",
+                        "value": [],
+                        "linked": true,
+                        "any": true
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}function/list",
+                            "type": "List"
+                        },
+                        "property": "function",
+                        "reference": "Function",
+                        "value": [],
+                        "linked": true,
+                        "any": true
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "own",
+                        "value": false
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "isolated",
+                        "value": false
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "all",
+                        "value": false
+                    }
+                ]
+            },
+            "Team": {
+                "all": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "name",
+                        "value": ""
+                    }
+                ]
+            },
+            "Translation": {
+                "all": [
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "language",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "country",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "property": "flag",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "translationFile",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "locale",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "enabled",
+                        "value": false
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "language",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "country",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "property": "flag",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "translationFile",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "locale",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "enabled",
+                        "value": false
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "language",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "country",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "property": "flag",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "translationFile",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 10,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "locale",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "nullable": false,
+                            "type": "Boolean"
+                        },
+                        "parent": true,
+                        "parent-width": 1,
+                        "property": "enabled",
+                        "value": false
+                    }
+                ]
+            },
+            "User": {
+                "all": [
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "lowercase",
+                                "no-whitespace",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "userName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "name-chars"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "firstName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "name-chars"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "lastName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "format": "mail",
+                            "max": 50,
+                            "min": 5,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "mail",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "format": "phone",
+                            "max": 30,
+                            "min": 10,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "property": "phone",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}team/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "team",
+                        "reference": "Team",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}function/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "function",
+                        "reference": "Function",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "type": "DateTime"
+                        },
+                        "column": false,
+                        "editable": false,
+                        "property": "creation",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 100,
+                            "min": 8,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "optional": true,
+                        "property": "password",
+                        "value": ""
+                    },
+                    {
+                        "value": "",
+                        "property": "image",
+                        "column": false,
+                        "accepted": {
+                            "format": "image/*",
+                            "type": "File",
+                            "min": 2,
+                            "max": 40,
+                            "multiple": false,
+                            "nullable": true
+                        },
+                        "reference": "File",
+                        "icon-only": true,
+                        "download": {
+                            "enabled": true
+                        }
+                    }
+                ],
+                "isolated": [
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "lowercase",
+                                "no-whitespace",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "userName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "name-chars"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "firstName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "name-chars"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "lastName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "format": "mail",
+                            "max": 50,
+                            "min": 5,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "mail",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "format": "phone",
+                            "max": 30,
+                            "min": 10,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "property": "phone",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}team/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "implicit": true,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "team",
+                        "reference": "Team",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}function/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "function",
+                        "reference": "Function",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "max": 100,
+                            "min": 8,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "optional": true,
+                        "property": "password",
+                        "value": ""
+                    },
+                    {
+                        "value": "",
+                        "column": false,
+                        "property": "image",
+                        "accepted": {
+                            "format": "image/*",
+                            "type": "File",
+                            "min": 2,
+                            "max": 40,
+                            "multiple": false,
+                            "nullable": true
+                        },
+                        "reference": "File",
+                        "icon-only": true,
+                        "download": {
+                            "enabled": true
+                        }
+                    }
+                ],
+                "own": [
+                    {
+                        "accepted": {
+                            "max": 20,
+                            "min": 3,
+                            "nullable": false,
+                            "restriction": [
+                                "plain-chars",
+                                "lowercase",
+                                "no-whitespace",
+                                "unique"
+                            ],
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "userName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "name-chars"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "firstName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "max": 30,
+                            "min": 2,
+                            "nullable": false,
+                            "restriction": [
+                                "name-chars"
+                            ],
+                            "type": "String"
+                        },
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "lastName",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "format": "mail",
+                            "max": 50,
+                            "min": 5,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "mail",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "format": "phone",
+                            "max": 30,
+                            "min": 10,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "property": "phone",
+                        "value": ""
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}team/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "team",
+                        "reference": "Team",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "list": "{{apiRootUrl}}function/list",
+                            "nullable": false,
+                            "type": "Id"
+                        },
+                        "editable": false,
+                        "parent": true,
+                        "parent-width": 2,
+                        "property": "function",
+                        "reference": "Function",
+                        "linked": true,
+                        "value": {
+                            "id": null
+                        }
+                    },
+                    {
+                        "accepted": {
+                            "max": 100,
+                            "min": 8,
+                            "nullable": false,
+                            "type": "String"
+                        },
+                        "column": false,
+                        "optional": true,
+                        "property": "password",
+                        "value": ""
+                    },
+                    {
+                        "value": "",
+                        "column": false,
+                        "property": "image",
+                        "accepted": {
+                            "format": "image/*",
+                            "type": "File",
+                            "min": 2,
+                            "max": 40,
+                            "multiple": false,
+                            "nullable": true
+                        },
+                        "reference": "File",
+                        "icon-only": true,
+                        "download": {
+                            "enabled": true
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "navigation": {
+        "leftbar": [
+            {
+                "items": [
+                    {
+                        "image": "svgs/user.svg",
+                        "name": "leftbar.user.info",
+                        "offset": 1,
+                        "rights": [
+                            {
+                                "action": "Get List",
+                                "level": "own",
+                                "object": "User"
+                            }
+                        ],
+                        "routerLink": "user/info"
+                    },
+                    {
+                        "image": "svgs/clock.svg",
+                        "name": "leftbar.user.timezone",
+                        "routerLink": "user/timezone"
+                    },
+                    {
+                        "image": "svgs/flag.svg",
+                        "name": "leftbar.user.language",
+                        "routerLink": "user/language"
+                    },
+                    {
+                        "image": "svgs/lock.svg",
+                        "name": "leftbar.user.sessions",
+                        "offset": 1,
+                        "rights": [
+                            {
+                                "action": "Get List",
+                                "level": "own",
+                                "object": "ActiveSession"
+                            }
+                        ],
+                        "routerLink": "user/session"
+                    },
+                    {
+                        "image": "svgs/logout.svg",
+                        "name": "leftbar.user.logout",
+                        "routerLink": "user/logout"
+                    }
+                ],
+                "path": "user"
+            },
+            {
+                "items": [
+                    {
+                        "image": "svgs/codebranch.svg",
+                        "name": "leftbar.settings.version",
+                        "offset": 3,
+                        "routerLink": "settings/version"
+                    },
+                    {
+                        "image": "svgs/users.svg",
+                        "name": "leftbar.settings.users",
+                        "offset": -3,
+                        "rights": [
+                            {
+                                "action": "Get List",
+                                "level": "isolated",
+                                "object": "User"
+                            }
+                        ],
+                        "routerLink": "settings/user"
+                    },
+                    {
+                        "image": "svgs/sitemap.svg",
+                        "name": "leftbar.settings.teams",
+                        "offset": -3,
+                        "rights": [
+                            {
+                                "action": "Get List",
+                                "level": "all",
+                                "object": "Team"
+                            }
+                        ],
+                        "routerLink": "settings/team"
+                    },
+                    {
+                        "image": "svgs/usertie.svg",
+                        "name": "leftbar.settings.functions",
+                        "offset": 2,
+                        "rights": [
+                            {
+                                "action": "Get List",
+                                "level": "all",
+                                "object": "Function"
+                            }
+                        ],
+                        "routerLink": "settings/function"
+                    },
+                    {
+                        "image": "svgs/universalaccess.svg",
+                        "name": "leftbar.settings.rights",
+                        "offset": -2,
+                        "rights": [
+                            {
+                                "action": "Edit",
+                                "level": "all",
+                                "object": "Right"
+                            }
+                        ],
+                        "routerLink": "settings/right"
+                    },
+                    {
+                        "image": "svgs/language.svg",
+                        "name": "leftbar.settings.languages",
+                        "offset": -3,
+                        "rights": [
+                            {
+                                "action": "Edit",
+                                "level": "all",
+                                "object": "Translation"
+                            }
+                        ],
+                        "routerLink": "settings/language"
+                    },
+                    {
+                        "image": "svgs/fingerprint.svg",
+                        "name": "leftbar.settings.ssl",
+                        "offset": -1,
+                        "rights": [
+                            {
+                                "action": "Edit",
+                                "level": "all",
+                                "object": "Right"
+                            }
+                        ],
+                        "routerLink": "settings/ssl"
+                    },
+                    {
+                        "image": "svgs/feather.svg",
+                        "name": "leftbar.settings.crud",
+                        "offset": 1,
+                        "rights": [
+                            {
+                                "action": "Edit",
+                                "level": "all",
+                                "object": "Right"
+                            }
+                        ],
+                        "routerLink": "settings/crud"
+                    }
+                ],
+                "path": "settings"
+            }
+        ],
+        "navbar": {
+            "middle": [
+                {
+                    "name": "navbar.dashboard",
+                    "routerLink": "dashboard"
+                }
+            ],
+            "right": [
+                {
+                    "activePath": "settings",
+                    "image": "svgs/cogs-gradient.svg",
+                    "name": "navbar.settings",
+                    "routerLink": "settings/version"
+                }
+            ]
+        }
+    },
+    "options": {},
+    "protocol": "http",
+    "version": "1.0.0"
+}

@@ -1,0 +1,10 @@
+{
+    "connection": {
+        "type": "db-type",
+        "userName": "db-username",
+        "password": "db-password",
+        "ip": "db-ip",
+        "db": "db-name",
+        "port": db-port
+    }
+}

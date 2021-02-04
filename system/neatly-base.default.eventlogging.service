@@ -1,0 +1,12 @@
+[Unit]
+Description=Neatly Base Event Logging
+Documentation=https://neatly.be/
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/usr/local/bin/
+ExecStart=/usr/local/bin/event-logging
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+{
+    "actions": {
+        "path": "/var/log/neatly/base/",
+        "file": "actions.log",
+        "level": "DEBUG"
+    },
+    "api": {
+        "path": "/var/log/neatly/base/",
+        "file": "api.log",
+        "level": "DEBUG"
+    }
+}

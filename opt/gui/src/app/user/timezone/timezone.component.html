@@ -1,0 +1,215 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Result Div -->
+<div class="result-div with-footer">
+
+<!-- Navigation Header -->
+<div class="nav-header">
+
+  <!-- Navigation -->
+  <nav>
+    <ol class="breadcrumb">
+      <ng-container *ngFor="let item of navigationLib.getNavItems(appConfig.config, data.routes.routes, route.snapshot.url); let index = index; let count = count;">
+        <li *ngIf="objLib.lookUpKey(item, 'name')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span [translate]="item.name"></span>
+        </li>
+        <li *ngIf="objLib.lookUpKey(item, 'value')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span>{{item.value}}</span>
+        </li>
+      </ng-container>
+    </ol>
+  </nav>
+
+</div>
+
+<!-- Results -->
+<div class="row nomargin flex-overlay">
+
+  <!-- Load Map Animation -->
+  <div class="mgl-map-overlay" [ngStyle]="{'opacity': (((map != null) && objLib.lookUpKey(map, 'rendering') && map.rendering.done)?0:1), 'visibility': (((map != null) && objLib.lookUpKey(map, 'rendering') && map.rendering.done)?'hidden':'visible')}">
+    <div class="middle-div">
+
+      <!-- Progress Bar -->
+      <div class="progress progress-bar-center map-progress-bar-center">
+        <div class="progress-bar progress-bar-striped map-progress-bar active" role="progressbar" [ngStyle]="{'width': (((map != null) && objLib.lookUpKey(map, 'rendering'))?(map.rendering.meta.progress.toString() + '%'):'0%')}">
+        </div>
+      </div>
+
+      <!-- Progress Info -->
+      <p class="map-progress">
+        {{ (((map != null) && objLib.lookUpKey(map, 'rendering'))?(map.rendering.meta.progress.toString() + '%'):'0%') }} - {{ (((map != null) && objLib.lookUpKey(map, 'rendering'))?map.rendering.meta.action:'common.map.initialisingmap') | translate | uppercase }}
+      </p>
+
+    </div>
+  </div>
+
+  <!-- MapBox Map -->
+  <mgl-map *ngIf="map" id="map" [ngClass]="{'loaded': ((map != null) && objLib.lookUpKey(map, 'rendering') && map.rendering.done)}" [style]="map.style" [zoom]="map.zoom" [center]="map.center" [ngStyle]="{'height': 'calc(100vh - 158px)', 'width': '100%', 'margin-left': '-100%'}" (load)="mapLib.mapRenderUpdate(map, 'load')" (dataLoading)="mapLib.mapRenderUpdate(map, 'data')" (sourceDataLoading)="mapLib.mapRenderUpdate(map, 'sourceData')">
+
+    <!-- MapBox Layers -->
+    <ng-container *ngIf="map">
+      <mgl-layer *ngFor="let layer of map.layer" [id]="layer.name" [type]="layer.type" [source]="layer.source" [layout]="layer.layout" [paint]="layer.paint"></mgl-layer>
+    </ng-container>
+
+    <!-- MapBox Card -->
+    <mgl-control position="top-left">
+
+      <!-- MapBox Card -->
+      <div class="mapbox-card">
+
+        <!-- Show Properties -->
+        <div class="overflow">
+
+          <!-- Location -->
+          <div class="availablewidth">
+
+            <!-- Property Name -->
+            <div class="line-property-name-div" [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties, 0.825)}">
+              <p class="line-property-name" [translate]="'user.timezone.location'"></p>
+            </div>
+
+            <!-- Property Value -->
+            <div class="nopadding" [ngStyle]="{'float': 'left'}">
+
+              <!-- Presentable (N/A) -->
+              <ng-container *ngIf="objLib.lookUpKey(timezone, 'location') && (timezone.location != null)">
+
+                <!-- Value Presentation -->
+                <p class="line-property-value">
+                  {{ timezone.location }}
+                </p>
+
+              </ng-container>
+
+              <!-- Not Presentable (N/A) -->
+              <ng-container *ngIf="!objLib.lookUpKey(timezone, 'location') || (timezone.location == null)">
+                <p class="line-property-value" [translate]="'common.table.notavailable'"></p>
+              </ng-container>
+
+            </div>
+
+          </div>
+
+          <!-- Timezone -->
+          <div class="availablewidth">
+
+            <!-- Property Name -->
+            <div class="line-property-name-div" [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties, 0.825)}">
+              <p class="line-property-name" [translate]="'user.timezone.timezone'"></p>
+            </div>
+
+            <!-- Property Value -->
+            <div class="nopadding" [ngStyle]="{'float': 'left'}">
+
+              <!-- Presentable (N/A) -->
+              <ng-container *ngIf="objLib.lookUpKey(timezone, 'timeZone') && (timezone.timeZone != null)">
+
+                <!-- Value Presentation -->
+                <p class="line-property-value">
+                  {{ timezone.timeZone }}
+                </p>
+
+              </ng-container>
+
+              <!-- Not Presentable (N/A) -->
+              <ng-container *ngIf="!objLib.lookUpKey(timezone, 'timeZone') || (timezone.timeZone == null)">
+                <p class="line-property-value" [translate]="'common.table.notavailable'"></p>
+              </ng-container>
+
+            </div>
+
+          </div>
+
+          <!-- UTC Offset -->
+          <div class="availablewidth">
+
+            <!-- Property Name -->
+            <div class="line-property-name-div" [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties, 0.825)}">
+              <p class="line-property-name" [translate]="'user.timezone.time'"></p>
+            </div>
+
+            <!-- Property Value -->
+            <div class="nopadding" [ngStyle]="{'float': 'left'}">
+
+              <!-- Presentable (N/A) -->
+              <ng-container *ngIf="objLib.lookUpKey(timezone, 'utcOffset') && (timezone.utcOffset != null)">
+
+                <!-- Value Presentation -->
+                <p class="line-property-value">
+                  {{ 'UTC' + (timezone.utcOffset>=0?'+':'') + (timezone.utcOffset / 60).toString() }}
+                </p>
+
+              </ng-container>
+
+              <!-- Not Presentable (N/A) -->
+              <ng-container *ngIf="!objLib.lookUpKey(timezone, 'utcOffset') || (timezone.utcOffset == null)">
+                <p class="line-property-value" [translate]="'common.table.notavailable'"></p>
+              </ng-container>
+
+            </div>
+
+          </div>
+
+          <!-- Locale -->
+          <div class="availablewidth">
+
+            <!-- Property Name -->
+            <div class="line-property-name-div" [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties, 0.825)}">
+              <p class="line-property-name" [translate]="'user.timezone.locale'"></p>
+            </div>
+
+            <!-- Property Value -->
+            <div class="nopadding" [ngStyle]="{'float': 'left'}">
+
+              <!-- Presentable (N/A) -->
+              <ng-container *ngIf="objLib.lookUpKey(timezone, 'locale') && (timezone.locale != null)">
+
+                <!-- Value Presentation -->
+                <p class="line-property-value">
+                  {{ timezone.locale }}
+                </p>
+
+              </ng-container>
+
+              <!-- Not Presentable (N/A) -->
+              <ng-container *ngIf="!objLib.lookUpKey(timezone, 'locale') || (timezone.locale == null)">
+                <p class="line-property-value" [translate]="'common.table.notavailable'"></p>
+              </ng-container>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </mgl-control>
+
+  </mgl-map>
+
+</div>
+
+<div class="credit-footer">
+
+  <!-- Logo -->
+  <a *ngIf="presentLib.getFooterLogo(appConfig.config)" [attr.href]="presentLib.getFooterLogoLink(appConfig.config)" target="_blank">
+    <img [src]="presentLib.getFooterLogo(appConfig.config)" class="logo">
+  </a>
+
+  <!-- Copyright -->
+  <p *ngIf="presentLib.getFooterCopyright(appConfig.config)" class="copyright">Copyright © {{ timeLib.getCurrentYear() }}</p>
+
+  <!-- Contact -->
+  <a *ngIf="presentLib.getFooterContactLink(appConfig.config)" [attr.href]="presentLib.getFooterContactLink(appConfig.config)" target="_blank">
+    <p class="contact" [translate]="'common.button.contact'"></p>
+  </a>
+
+</div>
+
+</div>

@@ -1,0 +1,7 @@
+[
+    {
+        "name": "_internal.object.trigger",
+        "numPartitions": 1,
+        "replicationFactor": 1
+    }
+]

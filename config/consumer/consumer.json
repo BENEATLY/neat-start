@@ -1,0 +1,10 @@
+[
+    {
+        "name": "event logging",
+        "service": "neatly-base.default.eventlogging",
+        "description": "consumer.default.eventlogging",
+        "topics": [
+            "_internal.object.trigger"
+        ]
+    }
+]

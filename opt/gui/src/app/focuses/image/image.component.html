@@ -1,0 +1,29 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Focus -->
+<focus-dialog>
+
+  <!-- Content -->
+  <ng-container focus-content>
+
+    <!-- Window Top -->
+    <div class="focus-window-top">
+      <img class="focus-close" (click)="focusService.cancel()" src="/assets/svgs/cross-gradient.svg">
+    </div>
+
+    <!-- Displayed Image -->
+    <img [src]="fileLib.genFilePath(meta.property, meta.object.val)">
+
+    <!-- Window Bottom -->
+    <div *ngIf="valLib.isDownloadAbleFile(meta.property)" class="focus-window-bottom">
+      <img class="download" (click)="fileLib.downloadFile(meta.property, meta.object.val, cookieService, http, snackBar)" src="/assets/svgs/download-gradient-2.svg">
+    </div>
+
+  </ng-container>
+
+</focus-dialog>

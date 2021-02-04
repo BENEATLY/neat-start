@@ -1,0 +1,41 @@
+#!/usr/local/bin/python
+
+# Author:     Thomas D'haenens
+# Created:    14/09/2019 8:21
+# License:    GPLv3
+
+
+# IMPORT: Standard Modules
+import json                                                                                 # JSON Lib
+import logging                                                                              # Logging Lib
+import os                                                                                   # OS Lib
+from logging.handlers import RotatingFileHandler                                            # Rotated Logging Lib
+import traceback                                                                            # Exception Lib
+import subprocess                                                                           # Process Exec Lib
+import sys                                                                                  # System Lib
+
+
+# FUNCTION: Read JSON File (No Logging)
+def readJSONFile(file):
+    with open(file) as content:
+        return json.load(content)
+
+
+# IMPORT: Custom Modules
+locationConfig = readJSONFile('/etc/neatly/base/location.json')                                     # Determine Lib Location
+sys.path.append(locationConfig['lib'])                                                              # Add Lib Location to Script
+from basic import python                                                                            # Basic Lib
+
+
+# Activate Launcher
+try:
+    if os.path.isfile(locationConfig['lib'] + 'neatly-base'):
+        os.chdir(locationConfig['lib'])
+        subprocess.call('./' + 'neatly-base' + ' > /dev/null', shell=True)
+    elif os.path.isfile(locationConfig['lib'] + 'neatly-base.py'):
+        os.chdir(locationConfig['lib'])
+        subprocess.call(python + ' ' + 'neatly-base.py' + ' > /dev/null', shell=True)
+    else:
+        print('The Neatly Base Executable is Not Found in: ' + str(locationConfig['lib']))
+except:
+    print('Neatly Base Executable Failed to Start: ' + str(traceback.format_exc()))

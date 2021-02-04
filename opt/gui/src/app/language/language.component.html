@@ -1,0 +1,24 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Page -->
+<div class="row small-selection-row">
+
+  <!-- Language Selector -->
+  <ng-container *ngFor="let option of translation.translationOptions">
+
+    <!-- Language Item -->
+    <div class="col-10 offset-1 small-selection-item-gradient" (click)="translation.setPreference(option)">
+      <span class="flag-icon flag-icon-{{option.flag}} small-selection-flag"></span>
+      <p class="small-selection-flag-text">
+        {{ option.language }}
+      </p>
+    </div>
+
+  </ng-container>
+
+</div>

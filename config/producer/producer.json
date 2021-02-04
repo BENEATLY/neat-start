@@ -1,0 +1,10 @@
+[
+    {
+        "name": "internal",
+        "service": null,
+        "description": "producer.default.internal",
+        "topics": [
+            "_internal.object.trigger"
+        ]
+    }
+]

@@ -1,0 +1,27 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Left Nav Bar -->
+<div *ngIf="navigation" id="left-nav-bar" class="left-nav-bar" [ngClass]="{'left-nav-bar-full': leftNavigation, 'left-nav-bar-small': (!leftNavigation)}">
+
+  <!-- Iterate over Navigation Items -->
+  <ng-container *ngFor="let item of navigation.items">
+
+    <!-- Navigation Item -->
+    <a class="left-nav-item" [ngClass]="{'active': navigationLib.checkPath(item.routerLink, fullPath)}" [ngStyle]="{'padding': '12px 0 12px calc(35px - ' + (10 - (objLib.lookUpKey(item, 'offset')?item.offset:0)).toString() + 'px)'}" routerLink="{{item.routerLink}}">
+
+      <!-- Icon -->
+      <img [src]="'/assets/' + item.image">
+
+      <!-- Description -->
+      <span *ngIf="leftNavigation" [ngStyle]="{'padding-left': 'calc(4px - (' + (objLib.lookUpKey(item, 'offset')?item.offset:0).toString() + 'px))'}" [translate]="item.name"></span>
+
+    </a>
+
+  </ng-container>
+
+</div>

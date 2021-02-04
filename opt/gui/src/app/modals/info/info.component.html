@@ -1,0 +1,334 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    19/01/2020 12:22
+  License:    GPLv3
+-->
+
+
+<!-- Dialog -->
+<modal-dialog>
+
+  <!-- Modal Title -->
+  <h4 class="modal-title modaltitle" modal-header>{{ meta.title }}</h4>
+
+  <!-- Form -->
+  <div modal-body class="form-group">
+
+    <!-- List of Items -->
+    <div *ngIf="valLib.isArray(properties) && (valLib.isArray(properties[0]))" class="modal-body-normalize">
+
+      <!-- Tabs -->
+      <ul class="nav nav-tabs nav-justified">
+
+        <!-- Iterate over Items -->
+        <ng-container *ngFor="let item of properties; index as i;">
+
+          <!-- Tab -->
+          <li [ngClass]="{'active': activeTab == i, 'bold': activeTab == i}" (click)="activeTab = i;">
+            <a id="{{strLib.removeSpecialChars('infomodal'+'-'+i.toString())}}-input" class="config-tab" data-toggle="tab" href="#{{'infomodal'+'-'+i.toString()}}">
+              {{ presentLib.presentObject(item) }}
+            </a>
+          </li>
+
+        </ng-container>
+
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content">
+
+        <!-- Iterate over Items -->
+        <ng-container *ngFor="let item of properties; index as i;">
+
+          <!-- Tab Content -->
+          <div id="{{'infomodal'+'-'+i.toString()}}" class="tab-pane fade in" [ngClass]="{'active': activeTab == i}">
+            <div class="modal-tab-content-normalize">
+
+              <!-- Info Field -->
+              <ng-container *ngIf="infoProperty">
+
+                <div class="popupinput">
+
+                  <!-- Info Title -->
+                  <label class="modallabel help-label">{{ 'common.label.help' | translate: {'propertyName': translate.instant(translateLib.constructPropertyName(meta.object.name, infoProperty))} }}</label>
+
+                  <!-- Info Content -->
+                  <span class="help-content" [innerHtml]="translate.instant(translateLib.constructPropertyHelpMessage(meta.object.name, infoProperty), {'right': meta.accessLevel}) | safe: 'html'"></span>
+
+                </div>
+
+              </ng-container>
+
+              <!-- Maximized Field -->
+              <ng-container *ngIf="(maximizedProperty && (!infoProperty))">
+
+                <div class="popupinput">
+
+                  <!-- Property Name (no Password) -->
+                  <label class="modallabel" *ngIf="(!valLib.isDefinedPassword(maximizedProperty)) || (valLib.isDefinedGeneric(maximizedProperty))" [translate]="translateLib.constructPropertyName(meta.object.name, maximizedProperty)"></label>
+                  <img *ngIf="translateLib.hasTranslation(translate, translateLib.constructPropertyHelpMessage(meta.object.name, maximizedProperty), {'right': meta.accessLevel})" (click)="infoProperty = maximizedProperty;" src="/assets/svgs/info-gradient.svg">
+                  <img (click)="maximizedProperty = null;" src="/assets/svgs/resize-gradient.svg">
+
+                  <!-- Text Area Presentation -->
+                  <textarea *ngIf="valLib.hasMaxConstraint(maximizedProperty)" class="form-control modalfield config-textarea" id="{{ maximizedProperty.property.toLowerCase() }}-input" [(ngModel)]="maximizedProperty.value" maxlength="{{ maximizedProperty.accepted.max }}" [disabled]="true"></textarea>
+                  <textarea *ngIf="(!valLib.hasMaxConstraint(maximizedProperty))" class="form-control modalfield config-textarea" id="{{ maximizedProperty.property.toLowerCase() }}-input" [(ngModel)]="maximizedProperty.value" [disabled]="true"></textarea>
+
+                </div>
+
+              </ng-container>
+
+              <!-- Not Maximized -->
+              <ng-container *ngIf="((!maximizedProperty) && (!infoProperty))">
+
+                <!-- Table -->
+                <table class="info-table">
+                  <tbody>
+
+                    <!-- Iterate over Ordered Properties -->
+                    <ng-container *ngFor="let property of sortLib.visuallyOrderProperties(properties[i])">
+
+                      <!-- Filter Visible Properties -->
+                      <ng-container *ngIf="(valLib.isDefinedGeneric(property) && valLib.isSelfOnly(property))">
+
+                        <!-- Property Info -->
+                        <tr>
+
+                          <!-- Property Name -->
+                          <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidth(translate, meta.object.name, properties[i])}">
+                            <p class="line-property-name">
+                              {{ translateLib.constructPropertyName(meta.object.name, property) | translate }}
+                            </p>
+                          </td>
+
+                          <!-- Property Value -->
+                          <td class="left-text">
+
+                            <!-- Presentable (N/A) -->
+                            <ng-container *ngIf="valLib.hasPresentableValue(property.value, property)">
+
+                              <!-- Value Presentation -->
+                              <p [ngClass]="{'table-icon': presentLib.compressContent(property), 'html-present': (!presentLib.compressContent(property))}" *ngIf="valLib.hasValuePresentation(property.value, property)" class="line-property-value">
+                                <span *ngIf="(!presentLib.compressContent(property))" class="value-present" [innerHtml]="presentLib.applyVisualision(property.value, property, item, timezone, {'info': true}) | safe: 'html'"></span>
+                                <img *ngIf="presentLib.compressContent(property) && (!((property.value == null) || (valLib.isJson(property) && (property.value.length < 3)) || ((!valLib.isJson(property)) && (property.value.length == 0))))" [src]="'/assets/svgs/eye-gradient.svg'" (click)="maximizedProperty = property;">
+                              </p>
+
+                              <!-- Custom Presentation -->
+                              <p class="line-property-value html-present" *ngIf="valLib.hasCustomPresentation(property.value, property)" [ngClass]="{'table-icon': valLib.isDownloadAbleFile(property)}">
+                                <img *ngIf="valLib.isImageFile(property)" (click)="focusLib.imageFocus(focusService, {'property': property, 'object': {'name': meta.object.name, 'val': property.value}})" [src]="'/assets/svgs/image-gradient.svg'">
+                                <img *ngIf="valLib.isDownloadAbleFile(property)" (click)="fileLib.downloadFile(property, property.value, cookieService, http, snackBar)" [src]="'/assets/svgs/download-gradient.svg'">
+                                <ng-container *ngIf="(!valLib.isIconOnly(property))">
+                                  <span *ngIf="(!valLib.isLinked(property))" class="value-present">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, property.value, property) }}</span>
+                                  <span *ngIf="valLib.isLinked(property)" class="value-present linked" (click)="modalService.navExternal(navigationLib.genSubNavPath(meta.route.snapshot.url, meta.object.name, meta.object.val, property, property.value))">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, property.value, property) }}</span>
+                                </ng-container>
+                              </p>
+
+                              <!-- List Presentation -->
+                              <p *ngIf="valLib.hasListPresentation(property.value, property)" class="line-property-value html-present">
+                                <span class="value-present">
+                                  <ng-container *ngFor="let val of property.value; let index = index; let count = count;">
+                                    <span *ngIf="valLib.isLinked(property)" class="linked" (click)="modalService.navExternal(navigationLib.genSubNavPath(meta.route.snapshot.url, meta.object.name, meta.object.val, property, val))">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                                    <span *ngIf="(!valLib.isLinked(property))" class="text">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                                    <span *ngIf="(index < (count-2))" class="text comma">,</span>
+                                    <span *ngIf="(index == (count-2))" class="text ampersand">&</span>
+                                  </ng-container>
+                                </span>
+                              </p>
+
+                              <!-- Boolean Presentation -->
+                             <div *ngIf="valLib.hasBooleanPresentation(property.value, property)" class="line-property-value info-checkbox">
+                               <input class="table-checkbox" type="checkbox" [checked]="property.value" [disabled]="(!property.value)">
+                             </div>
+
+                            </ng-container>
+
+                            <!-- Not Presentable (N/A) -->
+                            <ng-container *ngIf="!valLib.hasPresentableValue(property.value, property)">
+                              <p *ngIf="valLib.hasNAPresentation(property.value, property)" class="line-property-value">
+                                <span class="value-present" [translate]="'common.table.notavailable'"></span>
+                              </p>
+                              <p *ngIf="!valLib.hasNAPresentation(property.value, property)" class="line-property-value"></p>
+                            </ng-container>
+
+                          </td>
+
+                          <!-- Action -->
+                          <td class="info-table-icon">
+
+                            <!-- Info Modal -->
+                            <img *ngIf="translateLib.hasTranslation(translate, translateLib.constructPropertyHelpMessage(meta.object.name, property), {'right': meta.accessLevel})" (click)="infoProperty = property;" [src]="'/assets/svgs/info-gradient.svg'">
+
+                          </td>
+
+                        </tr>
+
+                      </ng-container>
+
+                    </ng-container>
+
+                  </tbody>
+                </table>
+
+              </ng-container>
+
+            </div>
+          </div>
+
+        </ng-container>
+
+      </div>
+
+    </div>
+
+    <!-- Single Item -->
+    <div *ngIf="valLib.isArray(properties) && (!valLib.isArray(properties[0]))" class="modal-body-normalize">
+
+      <!-- Info Field -->
+      <ng-container *ngIf="infoProperty">
+
+        <div class="popupinput">
+
+          <!-- Info Title -->
+          <label class="modallabel help-label">{{ 'common.label.help' | translate: {'propertyName': translate.instant(translateLib.constructPropertyName(meta.object.name, infoProperty))} }}</label>
+
+          <!-- Info Content -->
+          <span class="help-content" [innerHtml]="translate.instant(translateLib.constructPropertyHelpMessage(meta.object.name, infoProperty), {'right': meta.accessLevel}) | safe: 'html'"></span>
+
+        </div>
+
+      </ng-container>
+
+      <!-- Maximized Field -->
+      <ng-container *ngIf="(maximizedProperty && (!infoProperty))">
+
+        <div class="popupinput">
+
+          <!-- Property Name (no Password) -->
+          <label class="modallabel" *ngIf="(!valLib.isDefinedPassword(maximizedProperty)) || (valLib.isDefinedGeneric(maximizedProperty))" [translate]="translateLib.constructPropertyName(meta.object.name, maximizedProperty)"></label>
+          <img *ngIf="translateLib.hasTranslation(translate, translateLib.constructPropertyHelpMessage(meta.object.name, maximizedProperty), {'right': meta.accessLevel})" (click)="infoProperty = maximizedProperty;" src="/assets/svgs/info-gradient.svg">
+          <img (click)="maximizedProperty = null;" src="/assets/svgs/resize-gradient.svg">
+
+          <!-- Text Area Presentation -->
+          <textarea *ngIf="valLib.hasMaxConstraint(maximizedProperty)" class="form-control modalfield config-textarea" id="{{ maximizedProperty.property.toLowerCase() }}-input" [(ngModel)]="maximizedProperty.value" maxlength="{{ maximizedProperty.accepted.max }}" [disabled]="true"></textarea>
+          <textarea *ngIf="(!valLib.hasMaxConstraint(maximizedProperty))" class="form-control modalfield config-textarea" id="{{ maximizedProperty.property.toLowerCase() }}-input" [(ngModel)]="maximizedProperty.value" [disabled]="true"></textarea>
+
+        </div>
+
+      </ng-container>
+
+      <!-- Not Maximized -->
+      <ng-container *ngIf="((!maximizedProperty) && (!infoProperty))">
+
+        <!-- Table -->
+        <table class="info-table">
+          <tbody>
+
+            <!-- Iterate over Ordered Properties -->
+            <ng-container *ngFor="let property of sortLib.visuallyOrderProperties(properties)">
+
+              <!-- Filter Visible Properties -->
+              <ng-container *ngIf="(valLib.isDefinedGeneric(property) && valLib.isSelfOnly(property))">
+
+                <!-- Property Info -->
+                <tr>
+
+                  <!-- Property Name -->
+                  <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidth(translate, meta.object.name, properties)}">
+                    <p class="line-property-name">
+                      {{ translateLib.constructPropertyName(meta.object.name, property) | translate }}
+                    </p>
+                  </td>
+
+                  <!-- Property Value -->
+                  <td class="left-text">
+
+                    <!-- Presentable (N/A) -->
+                    <ng-container *ngIf="valLib.hasPresentableValue(property.value, property)">
+
+                      <!-- Value Presentation -->
+                      <p [ngClass]="{'table-icon': presentLib.compressContent(property), 'html-present': (!presentLib.compressContent(property))}" *ngIf="valLib.hasValuePresentation(property.value, property)" class="line-property-value">
+                        <span *ngIf="(!presentLib.compressContent(property))" class="value-present" [innerHtml]="presentLib.applyVisualision(property.value, property, item, timezone, {'info': true}) | safe: 'html'"></span>
+                        <img *ngIf="presentLib.compressContent(property) && (!((property.value == null) || (valLib.isJson(property) && (property.value.length < 3)) || ((!valLib.isJson(property)) && (property.value.length == 0))))" [src]="'/assets/svgs/eye-gradient.svg'" (click)="maximizedProperty = property;">
+                      </p>
+
+                      <!-- Custom Presentation -->
+                      <p class="line-property-value html-present" *ngIf="valLib.hasCustomPresentation(property.value, property)" [ngClass]="{'table-icon': valLib.isDownloadAbleFile(property)}">
+                        <img *ngIf="valLib.isImageFile(property)" (click)="focusLib.imageFocus(focusService, {'property': property, 'object': {'name': meta.object.name, 'val': property.value}})" [src]="'/assets/svgs/image-gradient.svg'">
+                        <img *ngIf="valLib.isDownloadAbleFile(property)" (click)="fileLib.downloadFile(property, property.value, cookieService, http, snackBar)" [src]="'/assets/svgs/download-gradient.svg'">
+                        <ng-container *ngIf="(!valLib.isIconOnly(property))">
+                          <span *ngIf="(!valLib.isLinked(property))" class="value-present">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, property.value, property) }}</span>
+                          <span *ngIf="valLib.isLinked(property)" class="value-present linked" (click)="modalService.navExternal(navigationLib.genSubNavPath(meta.route.snapshot.url, meta.object.name, meta.object.val, property, property.value))">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, property.value, property) }}</span>
+                        </ng-container>
+                      </p>
+
+                      <!-- List Presentation -->
+                      <p *ngIf="valLib.hasListPresentation(property.value, property)" class="line-property-value html-present">
+                        <span class="value-present">
+                          <ng-container *ngFor="let val of property.value; let index = index; let count = count;">
+                            <span *ngIf="valLib.isLinked(property)" class="linked" (click)="modalService.navExternal(navigationLib.genSubNavPath(meta.route.snapshot.url, meta.object.name, meta.object.val, property, val))">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                            <span *ngIf="(!valLib.isLinked(property))" class="text">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                            <span *ngIf="(index < (count-2))" class="text comma">,</span>
+                            <span *ngIf="(index == (count-2))" class="text ampersand">&</span>
+                          </ng-container>
+                        </span>
+                      </p>
+
+                      <!-- 'Any' Presentation -->
+                      <p *ngIf="valLib.hasAnyPresentation(property.value, property)" class="line-property-value">
+                        <span class="value-present">*</span>
+                      </p>
+
+                      <!-- Boolean Presentation -->
+                       <div *ngIf="valLib.hasBooleanPresentation(property.value, property)" class="line-property-value info-checkbox">
+                         <input class="table-checkbox" type="checkbox" [checked]="property.value" [disabled]="(!property.value)">
+                       </div>
+
+                    </ng-container>
+
+                    <!-- Not Presentable (N/A) -->
+                    <ng-container *ngIf="!valLib.hasPresentableValue(property.value, property)">
+                      <p *ngIf="valLib.hasNAPresentation(property.value, property)" class="line-property-value">
+                        <span class="value-present" [translate]="'common.table.notavailable'"></span>
+                      </p>
+                      <p *ngIf="!valLib.hasNAPresentation(property.value, property)" class="line-property-value"></p>
+                    </ng-container>
+
+                  </td>
+
+                  <!-- Action -->
+                  <td class="info-table-icon">
+
+                    <!-- Info Modal -->
+                    <img *ngIf="translateLib.hasTranslation(translate, translateLib.constructPropertyHelpMessage(meta.object.name, property), {'right': meta.accessLevel})" (click)="infoProperty = property;" [src]="'/assets/svgs/info-gradient.svg'">
+
+                  </td>
+
+                </tr>
+
+              </ng-container>
+
+            </ng-container>
+
+          </tbody>
+        </table>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div modal-footer>
+
+    <!-- Cancel -->
+    <button *ngIf="(!infoProperty) && (!maximizedProperty)" class="btn btn-neatly-modal" (click)="modalService.cancel()" [translate]="'common.button.close'"></button>
+
+    <!-- Info Property -->
+    <button *ngIf="infoProperty" class="btn" (click)="infoProperty = null;" [translate]="'common.button.back'"></button>
+
+    <!-- Maximized Property -->
+    <button *ngIf="maximizedProperty && (!infoProperty)" class="btn" (click)="maximizedProperty = null;" [translate]="'common.button.back'"></button>
+
+  </div>
+
+</modal-dialog>

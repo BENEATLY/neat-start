@@ -1,0 +1,409 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Determine if Route is Allowed -->
+<div *ngIf="rightLib.sufficientRights(data.userData.right, objectDefinition, 'Get List', 'isolated')" class="result-div with-footer">
+
+<!-- Navigation Header -->
+<div class="nav-header">
+
+  <!-- Navigation -->
+  <nav>
+    <ol class="breadcrumb">
+      <ng-container *ngFor="let item of navigationLib.getNavItems(appConfig.config, data.routes.routes, route.snapshot.url); let index = index; let count = count;">
+        <li *ngIf="objLib.lookUpKey(item, 'name')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span [translate]="item.name"></span>
+        </li>
+        <li *ngIf="objLib.lookUpKey(item, 'value')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span>{{item.value}}</span>
+        </li>
+      </ng-container>
+    </ol>
+  </nav>
+
+  <!-- Access Level -->
+  <div *ngIf="(resultInfo.model != null) && definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition)" class="dropdown view-dropdown split">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownViewButton" data-toggle="dropdown" [disabled]="accessLevel.options.length <= 1">{{ ('common.view.' + accessLevel.selected) | translate | titlecase }}</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownViewButton">
+      <ng-container *ngFor="let option of accessLevel.options">
+        <a class="dropdown-item" (click)="accessLevel.selected = option; update();">{{ ('common.view.' + option) | translate | titlecase }}</a>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Display -->
+  <div *ngIf="(resultInfo.model != null) && definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition)" class="dropdown display-dropdown split">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDisplayButton" data-toggle="dropdown" [translate]="'common.button.display'"></button>
+    <div class="dropdown-menu" aria-labelledby="dropdownDisplayButton">
+      <ng-container *ngFor="let property of definitionsLib.getDefinitionsForPage(appConfig.config, data.userData.right, objectDefinition, objectDefinition, 'Get List', 'model', displayOptions)">
+        <a *ngIf="objLib.lookUpKey(columns.model, property.property)" class="dropdown-item">
+          <input type="checkbox" [(ngModel)]="columns.model[property.property]">
+          <p [translate]="translateLib.constructPropertyName(objectDefinition, property)"></p>
+        </a>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div *ngIf="(resultInfo.model != null) && definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition)" class="dropdown filter-dropdown split" [ngClass]="{'dropup': filterPanel.model, 'active': (filterArray.model.length > 1)}">
+    <button class="btn btn-secondary dropdown-toggle" type="button" [translate]="'common.button.filter'" (click)="filterPanel.model = (!filterPanel.model)"></button>
+  </div>
+
+  <!-- Create Button -->
+  <div class="action-button">
+    <button *ngIf="(resultInfo.model != null) && rightLib.sufficientRights(data.userData.right, objectDefinition, 'Create', 'own')" class="create-button" (click)="modalLib.propertyModal(modalService, formatLib.formatInfo(appConfig.config, objectDefinition, null, (pageLib.determineFixedLevel('model', displayOptions) || definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Create', objectDefinition))), {'object': {'name': objectDefinition, 'val': null}, 'config': appConfig.config, 'route': route, 'title': translate.instant(translateLib.constructModalTitleTranslation(objectDefinition, 'create'), {item: null}), 'type': 'Create', 'options': crudOptions, 'accessLevel': accessLevel.selected}, jquery('#update-required'))">
+      <!-- Icon -->
+      <div><img [src]="'/assets/svgs/plus-blue.svg'"></div>
+      <!-- Action -->
+      <p [translate]="translateLib.constructModalTitleTranslation(objectDefinition, 'create')"></p>
+    </button>
+  </div>
+
+  <!-- Help Button -->
+  <div class="icon-button right">
+    <button *ngIf="(resultInfo.model != null) && rightLib.sufficientRights(data.userData.right, objectDefinition, 'Get List', 'own')" class="help-button" (click)="modalLib.helpModal(modalService, {'object': {'name': objectName, 'definition': objectDefinition, 'properties': objLib.getKeys(columns.model), 'right': definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition), 'accessLevel': accessLevel.selected}})">
+      <img [src]="'/assets/svgs/help-gradient.svg'">
+    </button>
+  </div>
+
+</div>
+
+<!-- Results -->
+<div class="results">
+
+  <!-- Filter Palette -->
+  <div *ngIf="(resultInfo.model != null) && definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition)" class="filterpalette" [ngStyle]="{'display': (filterPanel.model?'block':'none')}">
+
+    <div class="nomargin row">
+
+      <!-- Filter Header -->
+      <div class="col-sm-12 filter-header">
+
+        <!-- Filter Icon -->
+        <div class="filter-icon">
+          <img src="/assets/svgs/filter-gradient.svg">
+        </div>
+
+        <!-- Filter Title -->
+        <p [translate]="'common.button.filter'"></p>
+
+        <!-- Filter Action Buttons -->
+        <div class="filter-button">
+
+          <!-- Applied -->
+          <button *ngIf="filterLib.isCurrentAppliedFilter(filterState, filterArray)" class="gradient">
+            <div>
+              <img src="/assets/svgs/double-check-gradient.svg">
+            </div>
+            <p [translate]="'common.filter.filter-applied'"></p>
+          </button>
+
+          <!-- Apply -->
+          <button *ngIf="((!filterLib.isCurrentAppliedFilter(filterState, filterArray)) && filterLib.filterAllowed(filterArray.model))" class="green" (click)="pageInfo.model.page = 1; update();">
+            <div>
+              <img src="/assets/svgs/angle-double.svg">
+            </div>
+            <p [translate]="'common.filter.filter-apply'"></p>
+          </button>
+
+          <!-- Incomplete -->
+          <button *ngIf="((!filterLib.isCurrentAppliedFilter(filterState, filterArray)) && (!filterLib.filterAllowed(filterArray.model)))" class="red">
+            <div>
+              <img src="/assets/svgs/cross-gradient.svg">
+            </div>
+            <p [translate]="'common.filter.filter-invalid'"></p>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Scroll Filters -->
+      <div class="filter-lines">
+
+        <!-- Iterate over Filter Lines -->
+        <ng-container *ngFor="let filterLine of filterArray.model; let line = index; let count = count;">
+
+          <!-- Filter Area -->
+          <div class="filter-area">
+
+            <!-- Filter Number Box -->
+            <div class="filter-box">
+              <p class="filter-number">
+                {{ line+1 }}
+              </p>
+            </div>
+
+            <!-- Iterate over Filter Line Property -->
+            <ng-container *ngFor="let filterProperty of filterLine.property; let i = index;">
+
+              <!-- Subproperty Arrow -->
+              <div *ngIf="(i != 0)" class="filter-arrow">
+                <img src="/assets/svgs/angle-double.svg">
+              </div>
+
+              <div class="dropdown view-dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownViewButton" data-toggle="dropdown" [disabled]="filterLine.fixed">
+                  <ng-container *ngIf="(!filterLine.property[i])">{{ 'common.filter.select-property' | translate }}</ng-container>
+                  <ng-container *ngIf="filterLine.property[i]">{{ translateLib.constructPropertyName(filterLine['object'][i], {'property': filterLine.property[i]}) | translate }}</ng-container>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownViewButton">
+                  <a class="dropdown-item" (click)="filterLine.property[i] = null; filterLib.selectFilter(filterLine, appConfig.config, i);">&nbsp;</a>
+                  <ng-container *ngFor="let j of filterLib.filterableProperties(definitionsLib.getDefinitionsForPage(appConfig.config, data.userData.right, objectDefinition, filterLine['object'][i], 'Get List', 'model', displayOptions))">
+                    <a class="dropdown-item" (click)="filterLine.property[i] = j.property; filterLib.selectFilter(filterLine, appConfig.config, i);">{{ translateLib.constructPropertyName(filterLine['object'][i], j) | translate }}</a>
+                  </ng-container>
+                </div>
+              </div>
+
+            </ng-container>
+
+            <!-- Compare Arrow -->
+            <div *ngIf="((filterLine.property[filterLine.property.length - 1] != null) || ((filterLine.lastProperty != null) && valLib.isNullable(filterLine.lastProperty)))" class="filter-compare-arrow">
+              <img src="/assets/svgs/arrow-right-gradient.svg">
+            </div>
+
+            <!-- Select Comparator -->
+            <div *ngIf="((filterLine.property[filterLine.property.length - 1] != null) || ((filterLine.lastProperty != null) && valLib.isNullable(filterLine.lastProperty)))" class="dropdown view-dropdown comparator-dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownViewButton" data-toggle="dropdown" [disabled]="filterLine.fixed">
+                <ng-container *ngIf="(!filterLine.comparator)">{{ 'common.filter.select-comparator' | translate | titlecase }}</ng-container>
+                <ng-container *ngIf="filterLine.comparator">{{ translateLib.constructComparatorName({'comparator': filterLine.comparator}) | translate | lowercase }}</ng-container>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownViewButton">
+                <a class="dropdown-item" (click)="filterLine.comparator = null; filterLib.onComparatorSelect(filterArray.model, filterLine, line, timezone, translation, null);">&nbsp;</a>
+                <ng-container *ngFor="let j of filterLib.determineComparators(filterLine)">
+                  <a class="dropdown-item" (click)="filterLine.comparator = j.comparator; filterLib.onComparatorSelect(filterArray.model, filterLine, line, timezone, translation, null);">{{ translateLib.constructComparatorName(j) | translate }}</a>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- Filter Search Box (String) -->
+            <div *ngIf="((filterLine.property[filterLine.property.length - 1] != null) || ((filterLine.lastProperty != null) && valLib.isNullable(filterLine.lastProperty))) && (filterLine.comparator != null) && (filterLine.ref != null) && valLib.isDefinedString(filterLine.lastProperty)" class="btn-group button-group">
+              <input class="form-control filter-searchbox" type="text" [(ngModel)]="filterLine.ref" [disabled]="filterLine.fixed">
+            </div>
+
+            <!-- Filter Search Box (Number) -->
+            <div *ngIf="((filterLine.property[filterLine.property.length - 1] != null) || ((filterLine.lastProperty != null) && valLib.isNullable(filterLine.lastProperty))) && (filterLine.comparator != null) && (filterLine.ref != null) && valLib.isDefinedNumber(filterLine.lastProperty)" class="btn-group button-group">
+              <input class="form-control filter-searchbox" type="number" [(ngModel)]="filterLine.ref" [disabled]="filterLine.fixed" (input)="formLib.evaluateStrictNumber($event, filterLine)">
+            </div>
+
+            <!-- Filter Search Box (Time/DateTime/Date) -->
+            <div class="filter-datetime">
+              <div *ngIf="((filterLine.property[filterLine.property.length - 1] != null) || ((filterLine.lastProperty != null) && valLib.isNullable(filterLine.lastProperty))) && (filterLine.comparator != null) && (filterLine.ref != null) && valLib.isTimeDependent(filterLine.lastProperty)" class="input-group date" id="filter-{{ line+1 }}-datetimepicker" [ngStyle]="{'width': (valLib.isDefinedDateTime(filterLine.lastProperty)?'195px':'130px')}">
+                <input [(ngModel)]="filterLine.ref" type="text" id="filter-{{ line+1 }}-input" class="form-control modalfield datemodalfield unclickable" [disabled]="filterLine.fixed"/>
+                <span class="input-group-addon">
+                  <img [src]="'/assets/svgs/calendar-gradient.svg'">
+                </span>
+              </div>
+            </div>
+
+            <!-- Delete Filter -->
+            <div *ngIf="(!filterLine.fixed) && ((line != 0) || (filterArray.model.length > 1)) && (line != filterArray.model.length) && ((line+1) != filterArray.model.length)" (click)="filterLib.deleteFilter(filterArray.model, line)" class="delete-filter">
+              <img src="/assets/svgs/cross-gradient.svg">
+            </div>
+
+            <!-- Incomplete Filter -->
+            <div *ngIf="!filterLib.singleFilterAllowed(filterLine, line, count)" class="incomplete-filter" [translate]="'common.filter.filter-incomplete'"></div>
+
+            <!-- Fixed Filter -->
+            <div *ngIf="filterLine.fixed" class="fixed-filter" [translate]="'common.filter.filter-fixed'"></div>
+
+          </div>
+
+        </ng-container>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Display Result Table -->
+  <div *ngIf="(resultInfo.model != null) && definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition)" class="result-table">
+
+    <!-- Table -->
+    <table class="table" cellspacing="0">
+
+      <!-- Table Head -->
+      <thead>
+        <tr class="rowtitle">
+
+          <!-- Determine Visible Properties -->
+          <ng-container *ngFor="let property of definitionsLib.getDefinitionsForPage(appConfig.config, data.userData.right, objectDefinition, objectDefinition, 'Get List', 'model', displayOptions)">
+            <th *ngIf="!valLib.isOptional(property) && columns.model[property.property]" (click)="sortLib.sortJob(sortingArray, 'model', property.property); update();" [ngClass]="{'active': (sortingArray.model.attr == property.property)}">
+              <span>{{ translateLib.constructPropertyName(objectDefinition, property) | translate }}</span>
+              <span *ngIf="valLib.hasUnitPresentation(property.value, property)" class="table-header-unit">({{property.accepted.unit}}) </span>
+              <span *ngIf="sortingArray.model.attr == property.property">
+                <img *ngIf="!sortingArray.model.order" class="sort-up" [src]="'/assets/svgs/angle-double-colored.svg'">
+                <img *ngIf="sortingArray.model.order" class="sort-down" [src]="'/assets/svgs/angle-double-colored.svg'">
+              </span>
+            </th>
+          </ng-container>
+
+          <!-- Info Modal -->
+          <th class="fixed-table-header" style="width: 60px;" [translate]="'common.table.info'"></th>
+
+          <!-- Action Modal -->
+          <ng-container *ngIf="rightLib.sufficientRights(data.userData.right, objectDefinition, 'Edit', accessLevel.selected) || rightLib.sufficientRights(data.userData.right, objectDefinition, 'Delete', accessLevel.selected)">
+            <th class="fixed-table-header" style="width: 60px;" [translate]="'common.table.actions'"></th>
+          </ng-container>
+
+        </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody>
+
+        <!-- Sort Results -->
+        <ng-container *ngFor="let item of resultInfo.model">
+          <tr>
+
+            <!-- Properties -->
+            <ng-container *ngFor="let property of definitionsLib.getDefinitionsForPage(appConfig.config, data.userData.right, objectDefinition, objectDefinition, 'Get List', 'model', displayOptions)">
+
+              <!-- Determine Value -->
+              <ng-container *ngVar="objLib.getSubProperty(item, property.property); let modelValue">
+
+                <!-- Presentable (N/A) -->
+                <ng-container *ngIf="valLib.hasPresentableValue(modelValue, property)">
+
+                  <!-- Value Presentation -->
+                  <td [ngClass]="{'table-icon': presentLib.compressContent(property), 'html-present': (!presentLib.compressContent(property))}" *ngIf="columns.model[property.property] && valLib.hasValuePresentation(modelValue, property)">
+                    <div *ngIf="(!presentLib.compressContent(property))" class="value-present" [innerHtml]="presentLib.applyVisualision(modelValue, property, item, timezone, {'unit': false}) | safe: 'html'"></div>
+                    <img *ngIf="presentLib.compressContent(property) && (!((modelValue == null) || (valLib.isJson(property) && (modelValue.length < 3)) || ((!valLib.isJson(property)) && (modelValue.length == 0))))" [src]="'/assets/svgs/eye-gradient.svg'" (click)="modalLib.longContentModal(modalService, {'value': modelValue, 'property': property, 'title': translate.instant(translateLib.constructPropertyName(objectDefinition, property))})">
+                  </td>
+
+                  <!-- Custom Presentation -->
+                  <td class="html-present" *ngIf="columns.model[property.property] && valLib.hasCustomPresentation(modelValue, property)" [ngClass]="{'table-icon': valLib.isDownloadAbleFile(property)}">
+                    <img *ngIf="valLib.isImageFile(property)" (click)="focusLib.imageFocus(focusService, {'property': property, 'object': {'name': objectDefinition, 'val': modelValue}})" [src]="'/assets/svgs/image-gradient.svg'">
+                    <img *ngIf="valLib.isDownloadAbleFile(property)" (click)="fileLib.downloadFile(property, modelValue, cookieService, http, snackBar)" [src]="'/assets/svgs/download-gradient.svg'">
+                    <ng-container *ngIf="(!valLib.isIconOnly(property))">
+                      <span *ngIf="(!valLib.isLinked(property))" class="nomargin">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, modelValue, property) }}</span>
+                      <span *ngIf="valLib.isLinked(property)" class="nomargin linked" (click)="navigationLib.subNav(router, route.snapshot.url, objectDefinition, item, property, modelValue)">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, modelValue, property) }}</span>
+                    </ng-container>
+                  </td>
+
+                  <!-- List Presentation -->
+                  <td *ngIf="columns.model[property.property] && valLib.hasListPresentation(modelValue, property)" [ngClass]="{'table-icon': (valLib.isCompressed(property) && (modelValue.length > 1))}">
+                    <ng-container *ngIf="!valLib.isCompressed(property) || (modelValue.length <= 1)">
+                      <div class="html-present" *ngFor="let val of modelValue">
+                        <span *ngIf="(!valLib.isLinked(property))" class="nomargin">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                        <span *ngIf="valLib.isLinked(property)" class="nomargin linked" (click)="navigationLib.subNav(router, route.snapshot.url, objectDefinition, item, property, val)">{{ presentLib.customPresentation(appConfig.config, data.userData, translate, val, property) }}</span>
+                        <br>
+                      </div>
+                    </ng-container>
+                    <img *ngIf="valLib.isCompressed(property) && (modelValue.length > 1)" (click)="navigationLib.subNav(router, route.snapshot.url, objectDefinition, item, property, null)" [src]="'/assets/svgs/list-gradient.svg'">
+                  </td>
+
+                  <!-- 'Any' Presentation -->
+                  <td *ngIf="columns.model[property.property] && valLib.hasAnyPresentation(modelValue, property)">*<br></td>
+
+                  <!-- Boolean Presentation -->
+                  <td *ngIf="columns.model[property.property] && valLib.hasBooleanPresentation(modelValue, property)">
+                    <input class="table-checkbox" type="checkbox" [ngModel]="modelValue" [disabled]="(!modelValue)">
+                  </td>
+
+                </ng-container>
+
+                <!-- Not Presentable (N/A) -->
+                <ng-container *ngIf="!valLib.hasPresentableValue(modelValue, property)">
+                  <td *ngIf="columns.model[property.property] && valLib.hasNAPresentation(modelValue, property)" [translate]="'common.table.notavailable'"></td>
+                  <td *ngIf="columns.model[property.property] && (!valLib.hasNAPresentation(modelValue, property))"></td>
+                </ng-container>
+
+              </ng-container>
+
+            </ng-container>
+
+            <!-- Info Modal -->
+            <td style="width: 50px;" class="table-icon">
+              <img (click)="modalLib.infoModal(modalService, formatLib.formatInfo(appConfig.config, objectDefinition, item, (pageLib.determineFixedLevel('model', displayOptions) || definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition))), {'object': {'name': objectDefinition, 'val': item}, 'config': appConfig.config, 'route': route, 'title': translate.instant(translateLib.constructModalTitleTranslation(objectDefinition, 'info'), {item: item}), 'accessLevel': accessLevel.selected})" [src]="'/assets/svgs/info-gradient.svg'">
+            </td>
+
+            <!-- Action Modal -->
+            <ng-container *ngIf="rightLib.sufficientRights(data.userData.right, objectDefinition, 'Edit', accessLevel.selected) || rightLib.sufficientRights(data.userData.right, objectDefinition, 'Delete', accessLevel.selected)">
+              <td class="table-icon">
+
+                <!-- Edit Modal -->
+                <img *ngIf="rightLib.sufficientRights(data.userData.right, objectDefinition, 'Edit', accessLevel.selected)" (click)="modalLib.propertyModal(modalService, formatLib.formatInfo(appConfig.config, objectDefinition, item, (pageLib.determineFixedLevel('model', displayOptions) || definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Edit', objectDefinition))), {'object': {'name': objectDefinition, 'val': item}, 'config': appConfig.config, 'route': route, 'title': translate.instant(translateLib.constructModalTitleTranslation(objectDefinition, 'edit'), {item: item}), 'type': 'Edit', 'accessLevel': accessLevel.selected}, jquery('#update-required'))" [src]="'/assets/svgs/edit-gradient.svg'">
+
+                <!-- Delete Modal -->
+                <img *ngIf="rightLib.sufficientRights(data.userData.right, objectDefinition, 'Delete', accessLevel.selected)" (click)="modalLib.propertyModal(modalService, formatLib.formatInfo(appConfig.config, objectDefinition, item, (pageLib.determineFixedLevel('model', displayOptions) || definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Delete', objectDefinition))), {'object': {'name': objectDefinition, 'val': item}, 'config': appConfig.config, 'route': route, 'title': translate.instant(translateLib.constructModalTitleTranslation(objectDefinition, 'delete'), {item: item}), 'type': 'Delete', 'accessLevel': accessLevel.selected}, jquery('#update-required'))" [src]="'/assets/svgs/delete-gradient.svg'">
+
+              </td>
+            </ng-container>
+
+          </tr>
+        </ng-container>
+
+      </tbody>
+
+    </table>
+
+    <!-- Bottom Nav -->
+    <div *ngIf="(resultInfo.model != null) && definitionsLib.lookUpDefinitions(appConfig.config, data.userData.right, 'Get List', objectDefinition)" class="bottom-nav">
+
+      <!-- Page Navigation -->
+      <div class="page-nav-button" [ngClass]="{'disabled': (pageInfo.model.page == 1)}">
+        <a *ngIf="(pageInfo.model.page != 1)" (click)="pageInfo.model.page = 1; update();"><img [src]="'/assets/svgs/angle-double-colored.svg'"></a>
+        <a *ngIf="(pageInfo.model.page == 1)"><img [src]="'/assets/svgs/angle-double-colored.svg'"></a>
+      </div>
+      <div class="page-nav-button" [ngClass]="{'disabled': (pageInfo.model.page == 1)}">
+        <a *ngIf="(pageInfo.model.page != 1)" (click)="pageInfo.model.page = pageInfo.model.page - 1; update();"><img [src]="'/assets/svgs/angle-single-colored.svg'"></a>
+        <a *ngIf="(pageInfo.model.page == 1)"><img [src]="'/assets/svgs/angle-single-colored.svg'"></a>
+      </div>
+      <ng-container *ngFor="let pageNr of pageLib.determinePagerNumbers(pageInfo, 'model')">
+        <div class="page-nr-button active" *ngIf="pageInfo.model.page == pageNr"><a>{{ pageNr }}</a></div>
+        <div class="page-nr-button" *ngIf="pageInfo.model.page != pageNr" (click)="pageInfo.model.page = pageNr; update();"><a>{{ pageNr }}</a></div>
+      </ng-container>
+      <div class="page-nav-button" [ngClass]="{'disabled': (pageInfo.model.page == pageInfo.model.maxPage)}">
+        <a *ngIf="(pageInfo.model.page != pageInfo.model.maxPage)" (click)="pageInfo.model.page = pageInfo.model.page + 1; update();"><img [src]="'/assets/svgs/angle-single-colored.svg'"></a>
+        <a *ngIf="(pageInfo.model.page == pageInfo.model.maxPage)"><img [src]="'/assets/svgs/angle-single-colored.svg'"></a>
+      </div>
+      <div class="page-nav-button" [ngClass]="{'disabled': (pageInfo.model.page == pageInfo.model.maxPage)}">
+        <a *ngIf="(pageInfo.model.page != pageInfo.model.maxPage)" (click)="pageInfo.model.page = pageInfo.model.maxPage; update();"><img [src]="'/assets/svgs/angle-double-colored.svg'"></a>
+        <a *ngIf="(pageInfo.model.page == pageInfo.model.maxPage)"><img [src]="'/assets/svgs/angle-double-colored.svg'"></a>
+      </div>
+
+      <!-- Results -->
+      <p *ngIf="(pageInfo.model['total'] != null)" class="result-numbers">
+        {{ 'common.button.result-segment' | translate: pageLib.resultSegment(pageInfo) }}
+      </p>
+
+      <!-- Results / Page -->
+      <div class="dropdown dropup view-dropdown nr-of-results">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownViewButton" data-toggle="dropdown">{{pageInfo.model['perPage']}}</button>
+        <div class="dropdown-menu" aria-labelledby="dropdownViewButton">
+          <ng-container *ngFor="let option of pageLib.getResultsPerPageList()">
+            <a class="dropdown-item" (click)="pageInfo.model['perPage'] = option; pageInfo.model.page = 1; update();">{{option}}</a>
+          </ng-container>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="credit-footer">
+
+  <!-- Logo -->
+  <a *ngIf="presentLib.getFooterLogo(appConfig.config)" [attr.href]="presentLib.getFooterLogoLink(appConfig.config)" target="_blank">
+    <img [src]="presentLib.getFooterLogo(appConfig.config)" class="logo">
+  </a>
+
+  <!-- Copyright -->
+  <p *ngIf="presentLib.getFooterCopyright(appConfig.config)" class="copyright">Copyright © {{ timeLib.getCurrentYear() }}</p>
+
+  <!-- Contact -->
+  <a *ngIf="presentLib.getFooterContactLink(appConfig.config)" [attr.href]="presentLib.getFooterContactLink(appConfig.config)" target="_blank">
+    <p class="contact" [translate]="'common.button.contact'"></p>
+  </a>
+
+</div>
+
+</div>

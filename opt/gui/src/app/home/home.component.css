@@ -1,0 +1,5 @@
+/*
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+*/

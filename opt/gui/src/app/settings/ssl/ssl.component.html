@@ -1,0 +1,460 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Determine if Route is Allowed -->
+<div *ngIf="rightLib.sufficientRights(data.userData.right, 'Right', 'Edit', 'all')" class="result-div with-footer">
+
+<!-- Navigation Header -->
+<div class="nav-header">
+
+  <!-- Navigation -->
+  <nav>
+    <ol class="breadcrumb">
+      <ng-container *ngFor="let item of navigationLib.getNavItems(appConfig.config, data.routes.routes, route.snapshot.url); let index = index; let count = count;">
+        <li *ngIf="objLib.lookUpKey(item, 'name')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span [translate]="item.name"></span>
+        </li>
+        <li *ngIf="objLib.lookUpKey(item, 'value')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span>{{item.value}}</span>
+        </li>
+      </ng-container>
+    </ol>
+  </nav>
+
+  <!-- Upload New Certificate -->
+  <div class="action-button split">
+    <label for="import-cert-field-top" class="create-button no-text-transform">
+      <!-- Icon -->
+      <div><img [src]="'/assets/svgs/cloud-upload-colored.svg'"></div>
+      <!-- Action -->
+      <p [translate]="'settings.ssl.upload-cert'"></p>
+    </label>
+    <input accept=".crt" class="invisible" id="import-cert-field-top" name="import-cert-field-top" type="file" (change)="sslLib.uploadCertificateFile($event.target.files, appConfig.config, snackBar, cookieService, http, jquery('#update-required'))">
+  </div>
+
+  <!-- Upload New Key -->
+  <div class="action-button split">
+    <label for="import-key-field-top" class="create-button no-text-transform">
+      <!-- Icon -->
+      <div><img [src]="'/assets/svgs/cloud-upload-colored.svg'"></div>
+      <!-- Action -->
+      <p [translate]="'settings.ssl.upload-key'"></p>
+    </label>
+    <input accept=".key" class="invisible" id="import-key-field-top" name="import-key-field-top" type="file" (change)="sslLib.uploadKeyFile($event.target.files, appConfig.config, snackBar, cookieService, http, jquery('#update-required'))">
+  </div>
+
+  <!-- Secure API -->
+  <div *ngIf="sslLib.hasValidSSL(sslInfo) && (sslLib.getActiveGUIProtocol() == 'HTTP') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTP')" class="action-button">
+    <button class="create-button split" (click)="sslLib.switchAPIProtocol(sslLib.getAvailableAPIProtocol(appConfig.config), appConfig.config, snackBar, cookieService, http)">
+      <!-- Icon -->
+      <div><img [src]="'/assets/svgs/switch-crossing-arrows-colored.svg'"></div>
+      <!-- Action -->
+      <p [translate]="'common.ssl.secure.api'"></p>
+    </button>
+  </div>
+
+  <!-- Secure GUI -->
+  <div *ngIf="sslLib.hasValidSSL(sslInfo) && (sslLib.getActiveGUIProtocol() == 'HTTP') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTPS')" class="action-button">
+    <button class="create-button split" (click)="sslLib.switchGUIProtocol(sslLib.getAvailableGUIProtocol(), appConfig.config, snackBar, cookieService, http)">
+      <!-- Icon -->
+      <div><img [src]="'/assets/svgs/switch-crossing-arrows-colored.svg'"></div>
+      <!-- Action -->
+      <p [translate]="'common.ssl.secure.gui'"></p>
+    </button>
+  </div>
+
+</div>
+
+<!-- Results -->
+<div *ngIf="(sslInfo == null) || (!objLib.isEmptyObject(sslInfo))" class="results center">
+
+  <!-- Greeting -->
+  <div class="greeting-title">{{ greetingTitle }}</div>
+
+  <!-- Boxes -->
+  <div class="row nomargin justify">
+
+    <!-- Show Security Info -->
+    <div class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="white-box">
+
+        <!-- Header -->
+        <div class="header" [translate]="'settings.ssl.security'"></div>
+
+        <!-- Table -->
+        <table class="info-table">
+          <tbody>
+
+            <!-- Active API Protocol -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.activeprotocol.api'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- Value -->
+                <p class="line-property-value">
+
+                  <!-- Icon -->
+                  <img *ngIf="sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTP'" class="line-property-icon-shift-2 no-shift" src="/assets/svgs/triangle-yellow.svg">
+                  <img *ngIf="sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTPS'" class="line-property-icon-shift-3 no-shift" src="/assets/svgs/lock-green.svg">
+
+                  <!-- Text -->
+                  <span>{{ sslLib.getActiveAPIProtocol(appConfig.config) }}</span>
+
+                </p>
+
+              </td>
+
+            </tr>
+
+            <!-- Active GUI Protocol -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.activeprotocol.gui'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- Valid License -->
+                <p class="line-property-value">
+
+                  <!-- Icon -->
+                  <img *ngIf="sslLib.getActiveGUIProtocol() == 'HTTP'" class="line-property-icon-shift-2 no-shift" src="/assets/svgs/triangle-yellow.svg">
+                  <img *ngIf="sslLib.getActiveGUIProtocol() == 'HTTPS'" class="line-property-icon-shift-3 no-shift" src="/assets/svgs/lock-green.svg">
+
+                  <!-- Text -->
+                  <span>{{ sslLib.getActiveGUIProtocol() }}</span>
+
+                </p>
+
+              </td>
+
+            </tr>
+
+            <!-- Margin -->
+            <tr style="height: 20px;"></tr>
+
+            <!-- SSL -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.hasssl'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- SSL -->
+                <img *ngIf="sslLib.hasValidSSL(sslInfo)" [src]="'/assets/svgs/check-green.svg'">
+
+                <!-- No SSL -->
+                <img *ngIf="(!sslLib.hasValidSSL(sslInfo))" class="line-property-icon-shift-1" [src]="'/assets/svgs/cross-red.svg'">
+
+              </td>
+
+            </tr>
+
+            <!-- SSL Certificate -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.certificate'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- Present -->
+                <p *ngIf="((sslInfo != null) && objLib.lookUpKey(sslInfo, 'certificate') && sslInfo['certificate'])" class="line-property-value">
+                  {{ sslInfo.certificate }}
+                </p>
+
+                <!-- Not Present -->
+                <p *ngIf="((sslInfo == null) || (!objLib.lookUpKey(sslInfo, 'certificate')) || (!sslInfo['certificate']))" class="line-property-value" [translate]="'common.table.notavailable'"></p>
+
+              </td>
+
+            </tr>
+
+            <!-- SSL Key -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.key'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- Present -->
+                <p *ngIf="((sslInfo != null) && objLib.lookUpKey(sslInfo, 'key') && sslInfo['key'])" class="line-property-value">
+                  {{ sslInfo.key }}
+                </p>
+
+                <!-- Not Present -->
+                <p *ngIf="((sslInfo == null) || (!objLib.lookUpKey(sslInfo, 'key')) || (!sslInfo['key']))" class="line-property-value" [translate]="'common.table.notavailable'"></p>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- Show Certificate Info -->
+    <div *ngIf="(sslLib.hasValidSSL(sslInfo) && objLib.lookUpKey(sslInfo, 'expiryDate') && sslInfo['expiryDate'])" class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="white-box">
+
+        <!-- Header -->
+        <div class="header" [translate]="'settings.ssl.certificate'"></div>
+
+        <!-- Table -->
+        <table class="info-table">
+          <tbody>
+
+            <!-- Organisation -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.issuer.organisation'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- Present -->
+                <p *ngIf="(sslInfo != null) && objLib.lookUpKey(sslInfo, 'issuer') && objLib.lookUpKey(sslInfo.issuer, 'organisation') && sslInfo['issuer']['organisation']" class="line-property-value">
+                  {{ sslInfo.issuer.organisation }}
+                </p>
+
+                <!-- Not Present -->
+                <p *ngIf="((sslInfo == null) || (!objLib.lookUpKey(sslInfo, 'issuer')) || (!objLib.lookUpKey(sslInfo.issuer, 'organisation')) || (!sslInfo['issuer']['organisation']))" class="line-property-value" [translate]="'common.table.notavailable'"></p>
+
+              </td>
+
+            </tr>
+
+            <!-- Location -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.issuer.location'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- Present -->
+                <p *ngIf="(sslInfo != null) && objLib.lookUpKey(sslInfo, 'issuer') && objLib.lookUpKey(sslInfo.issuer, 'location') && sslInfo['issuer']['location']" class="line-property-value">
+                  {{ sslInfo.issuer.location }}
+                </p>
+
+                <!-- Not Present -->
+                <p *ngIf="((sslInfo == null) || (!objLib.lookUpKey(sslInfo, 'issuer')) || (!objLib.lookUpKey(sslInfo.issuer, 'location')) || (!sslInfo['issuer']['location']))" class="line-property-value" [translate]="'common.table.notavailable'"></p>
+
+              </td>
+
+            </tr>
+
+            <!-- Expiry Date -->
+            <tr>
+
+              <!-- Property Name -->
+              <td [ngStyle]="{'width': presentLib.determinePropertyNameLineMaxWidthByArray(translate, translationProperties)}">
+                <p class="line-property-name" [translate]="'common.ssl.expirydate'"></p>
+              </td>
+
+              <!-- Property Value -->
+              <td class="left-text">
+
+                <!-- Present -->
+                <p *ngIf="((sslInfo != null) && objLib.lookUpKey(sslInfo, 'expiryDate') && sslInfo['expiryDate'])" class="line-property-value">
+                  {{ timeLib.convertTimeDependentToString(sslInfo.expiryDate, valLib.fakeDateTimeProperty(), timezone) }}
+                </p>
+
+                <!-- Not Present -->
+                <p *ngIf="((sslInfo == null) || (!objLib.lookUpKey(sslInfo, 'expiryDate')) || (!sslInfo['expiryDate']))" class="line-property-value" [translate]="'common.table.notavailable'"></p>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- Cert/Key Upload -->
+    <div class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="availableheight vertical-row">
+
+        <!-- Upload Certificate -->
+        <div class="row-6">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'common.ssl.upload.certificate' | translate }}
+            </div>
+
+            <!-- Content -->
+            <label for="import-cert-field" class="white-box-button big no-text-transform">
+              <img [src]="'/assets/svgs/cloud-upload.svg'">
+              <p [translate]="'settings.ssl.upload-cert'"></p>
+            </label>
+            <input accept=".crt" class="invisible" id="import-cert-field" name="import-cert-field" type="file" (change)="sslLib.uploadCertificateFile($event.target.files, appConfig.config, snackBar, cookieService, http, jquery('#update-required'))">
+
+          </div>
+        </div>
+
+        <!-- Upload Key -->
+        <div class="row-6">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'common.ssl.upload.key' | translate }}
+            </div>
+
+            <!-- Content -->
+            <label for="import-key-field" class="white-box-button big no-text-transform">
+              <img [src]="'/assets/svgs/cloud-upload.svg'">
+              <p [translate]="'settings.ssl.upload-key'"></p>
+            </label>
+            <input accept=".key" class="invisible" id="import-key-field" name="import-key-field" type="file" (change)="sslLib.uploadKeyFile($event.target.files, appConfig.config, snackBar, cookieService, http, jquery('#update-required'))">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Switch Protocol and Questions -->
+    <div class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="availableheight vertical-row">
+
+        <!-- Switch API Protocol -->
+        <div *ngIf="sslLib.hasValidSSL(sslInfo) && (!((sslLib.getActiveGUIProtocol() == 'HTTPS') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTPS')))" class="row-6">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'common.ssl.switchprotocol.api' | translate }}
+            </div>
+
+            <!-- Content -->
+            <button (click)="sslLib.switchAPIProtocol(sslLib.getAvailableAPIProtocol(appConfig.config), appConfig.config, snackBar, cookieService, http)" class="white-box-button big no-text-transform">
+              <img [src]="'/assets/svgs/switch-crossing-arrows.svg'">
+              <p>{{ 'common.ssl.switchprotocol.to' | translate: {'protocol': sslLib.getAvailableAPIProtocol(appConfig.config)} }}</p>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Switch GUI Protocol -->
+        <div *ngIf="sslLib.hasValidSSL(sslInfo) && (!((sslLib.getActiveGUIProtocol() == 'HTTP') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTP')))" class="row-6">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'common.ssl.switchprotocol.gui' | translate }}
+            </div>
+
+            <!-- Content -->
+            <button (click)="sslLib.switchGUIProtocol(sslLib.getAvailableGUIProtocol(), appConfig.config, snackBar, cookieService, http)" class="white-box-button big no-text-transform">
+              <img [src]="'/assets/svgs/switch-crossing-arrows.svg'">
+              <p>{{ 'common.ssl.switchprotocol.to' | translate: {'protocol': sslLib.getAvailableGUIProtocol()} }}</p>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Questions -->
+        <div *ngIf="(!(sslLib.hasValidSSL(sslInfo) && ((!((sslLib.getActiveGUIProtocol() == 'HTTP') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTP'))) && (!((sslLib.getActiveGUIProtocol() == 'HTTPS') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTPS'))))))" class="row-6">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'settings.ssl.questions' | translate }}
+            </div>
+
+            <!-- Content -->
+            <a href="https://neatly.be/" target="_blank" class="white-box-button big no-text-transform">
+              <img [src]="'/assets/svgs/contact.svg'">
+              <p [translate]="'settings.ssl.contact-us'"></p>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Potentially Just Questions -->
+    <div *ngIf="(sslLib.hasValidSSL(sslInfo) && ((!((sslLib.getActiveGUIProtocol() == 'HTTP') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTP'))) && (!((sslLib.getActiveGUIProtocol() == 'HTTPS') && (sslLib.getActiveAPIProtocol(appConfig.config) == 'HTTPS')))))" class="col-xxxl-4 col-xxl-6 col-xl-6 col-lg-12 col-md-12 col-sm-12 nopadding flex-column">
+      <div class="availableheight vertical-row">
+
+        <!-- Questions -->
+        <div class="row-6">
+          <div class="white-box">
+
+            <!-- Header -->
+            <div class="header">
+              {{ 'settings.ssl.questions' | translate }}
+            </div>
+
+            <!-- Content -->
+            <a href="https://neatly.be/" target="_blank" class="white-box-button big no-text-transform">
+              <img [src]="'/assets/svgs/contact.svg'">
+              <p [translate]="'settings.ssl.contact-us'"></p>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="credit-footer">
+
+  <!-- Logo -->
+  <a *ngIf="presentLib.getFooterLogo(appConfig.config)" [attr.href]="presentLib.getFooterLogoLink(appConfig.config)" target="_blank">
+    <img [src]="presentLib.getFooterLogo(appConfig.config)" class="logo">
+  </a>
+
+  <!-- Copyright -->
+  <p *ngIf="presentLib.getFooterCopyright(appConfig.config)" class="copyright">Copyright © {{ timeLib.getCurrentYear() }}</p>
+
+  <!-- Contact -->
+  <a *ngIf="presentLib.getFooterContactLink(appConfig.config)" [attr.href]="presentLib.getFooterContactLink(appConfig.config)" target="_blank">
+    <p class="contact" [translate]="'common.button.contact'"></p>
+  </a>
+
+</div>
+
+</div>

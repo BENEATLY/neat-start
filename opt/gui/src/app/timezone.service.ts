@@ -1,0 +1,73 @@
+/*
+  Author:     Thomas D'haenens
+  Created:    22/05/2020 21:33
+  License:    GPLv3
+*/
+
+
+// Imports: Required
+import { Injectable } from '@angular/core';
+import * as moment from 'moment';
+import 'moment-timezone';
+
+
+// Class Export Definition
+@Injectable()
+export class TimezoneService {
+
+  // Define Properties
+  public utcOffset: number = 0;
+  public timeZone: string = 'GMT';
+  public location: string = 'GMT';
+  public locale: string = 'en-US';
+  public dateFormat: string = 'DD/MM/YYYY';
+  public timeFormat: string = 'HH:mm:ss';
+  public dateTimeFormat: string = 'DD/MM/YYYY HH:mm:ss';
+
+
+  // Constructor
+  constructor() {}
+
+
+  // Load Timezone Info
+  public loadTimezone() {
+    return new Promise(
+      (resolve, reject) => {
+
+        // Get Current Time
+        let now = new Date();
+
+        // Get UTC Offset
+        this.utcOffset = -now.getTimezoneOffset();
+
+        // Get Location
+        let location = moment.tz.guess();
+        this.location = location;
+
+        // Get Timezone
+        this.timeZone = moment.tz.zone(location).abbr(360);
+
+        // Get Locale
+        let locale = (window.navigator['userLanguage'] || window.navigator.language);
+        this.locale = locale;
+
+        // Adjust Moment Locale
+        moment.locale(locale);
+
+        // Get Date Format
+        this.dateFormat = moment.localeData().longDateFormat('L');
+
+        // Get Time Format
+        this.timeFormat = moment.localeData().longDateFormat('LTS');
+
+        // Get DateTime Format
+        this.dateTimeFormat = moment.localeData().longDateFormat('L') + ' ' + moment.localeData().longDateFormat('LTS');
+
+        // Resolve
+        resolve(true);
+
+      }
+    );
+  }
+
+}

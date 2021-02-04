@@ -1,0 +1,71 @@
+<!--
+  Author:     Thomas D'haenens
+  Created:    14/09/2019 8:21
+  License:    GPLv3
+-->
+
+
+<!-- Result Div -->
+<div class="result-div with-footer">
+
+<!-- Navigation Header -->
+<div class="nav-header">
+
+  <!-- Navigation -->
+  <nav>
+    <ol class="breadcrumb">
+      <ng-container *ngFor="let item of navigationLib.getNavItems(appConfig.config, data.routes.routes, route.snapshot.url); let index = index; let count = count;">
+        <li *ngIf="objLib.lookUpKey(item, 'name')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span [translate]="item.name"></span>
+        </li>
+        <li *ngIf="objLib.lookUpKey(item, 'value')" class="breadcrumb-item" [ngClass]="{'active': (count == (index+1)), 'disabled': (!item.ref)}" (click)="(item.ref) && routeLib.navigate(router, item.ref)">
+          <span>{{item.value}}</span>
+        </li>
+      </ng-container>
+    </ol>
+  </nav>
+
+</div>
+
+<!-- Results -->
+<div class="results center row nomargin">
+
+  <!-- Language Selector -->
+  <ng-container *ngFor="let option of translation.translationOptions">
+
+    <!-- Language Item -->
+    <div class="col-xl-2 col-md-3 col-sm-4 col-xs-6 nopadding" (click)="translation.setPreference(option)">
+      <div class="item-box" [ngClass]="{'active': translation.isActiveTranslation(option)}">
+        <div class="item-box-content">
+          <span class="flag-icon flag-icon-{{option.flag}} flag-box"></span>
+          <div class="flag-box-name">
+            <p class="flag-box-language">
+              {{ option.language }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>
+
+<div class="credit-footer">
+
+  <!-- Logo -->
+  <a *ngIf="presentLib.getFooterLogo(appConfig.config)" [attr.href]="presentLib.getFooterLogoLink(appConfig.config)" target="_blank">
+    <img [src]="presentLib.getFooterLogo(appConfig.config)" class="logo">
+  </a>
+
+  <!-- Copyright -->
+  <p *ngIf="presentLib.getFooterCopyright(appConfig.config)" class="copyright">Copyright © {{ timeLib.getCurrentYear() }}</p>
+
+  <!-- Contact -->
+  <a *ngIf="presentLib.getFooterContactLink(appConfig.config)" [attr.href]="presentLib.getFooterContactLink(appConfig.config)" target="_blank">
+    <p class="contact" [translate]="'common.button.contact'"></p>
+  </a>
+
+</div>
+
+</div>

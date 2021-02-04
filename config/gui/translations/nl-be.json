@@ -1,0 +1,707 @@
+{
+    "common": {
+        "button": {
+            "display": "weergave",
+            "filter": "filter",
+            "page": "pagina",
+            "result-segment": "Weergave {start} - {end} van {results}",
+            "cancel": "annuleer",
+            "close": "sluit",
+            "contact": "contact",
+            "back": "ga terug",
+            "backto": "{item}",
+            "create": "creëer",
+            "delete": "verwijder",
+            "edit": "wijzig",
+            "terminate": "beëindigen",
+            "save": "opslaan",
+            "legend": "legende",
+            "download": "download"
+        },
+        "comparator": {
+            "=null": "is onbestaande",
+            "!=null": "is bestaande",
+            "=": "is gelijk aan",
+            "!=": "is niet gelijk aan",
+            "~=": "bevat",
+            "!~=": "bevat niet",
+            ">": "is > dan",
+            ">=": "is >= dan",
+            "<": "is < dan",
+            "<=": "is <= dan",
+            "=true": "is waar",
+            "=false": "is onwaar"
+        },
+        "filter": {
+          "filter-applied": "filter toegepast",
+          "filter-apply": "filter toepassen",
+          "filter-fixed": "vast",
+          "filter-incomplete": "onvolledig",
+          "filter-invalid": "ongeldige filter",
+          "select-comparator": "selecteer comparator",
+          "select-property": "selecteer eigenschap"
+        },
+        "greetings": {
+            "funny": {
+                "regular": {
+                    "0": "Turbo turbo, {info, property, firstName}!",
+                    "1": "Hallo {info, property, firstName}, nog een fijne dag!",
+                    "2": "Bonjour, {info, property, firstName}.",
+                    "3": "Arrrrrghh mah matey {info, property, firstName}!",
+                    "4": "Nihao {info, property, firstName}.",
+                    "5": "Het is leuk om je opnieuw te zien, {info, property, firstName}!",
+                    "6": "{info, property, firstName}, ik hoop dat je nog een werkweek overleeft.",
+                    "7": "Helloooo from the other side!!",
+                    "8": "{info, property, firstName}, aai me. Purrrrrr."
+                },
+                "time-based": {
+                    "day": {
+                        "4": "{info, property, firstName}, slaap je weleens?",
+                        "7": "{info, property, firstName}, ik hoop dat je al koffie hebt gehad.",
+                        "11": "Wat eten we vandaag, {info, property, firstName}?",
+                        "12": "Smakelijk, {info, property, firstName}!",
+                        "13": "{info, property, firstName}, alles goed?",
+                        "18": "Ik wens je een fijne avond, {info, property, firstName}!",
+                        "22": "{info, property, firstName}, moet je nog niet slapen?",
+                        "23": "{info, property, firstName}, je bent een nachtdier!"
+                    },
+                    "week": {
+                        "0": "{info, property, firstName}, geniet van je weekend!",
+                        "1": "{info, property, firstName}, hoe was je weekend?",
+                        "2": "{info, property, firstName}, gelukkige \"niet vrijdag\"",
+                        "3": "Goed nieuws, {info, property, firstName}: Nog 2 dagen en het is vrijdag!",
+                        "4": "Goed nieuws, {info, property, firstName}: Morgen is het vrijdag!",
+                        "5": "{info, property, firstName}, het is bijna weekendddd!!",
+                        "6": "{info, property, firstName}, geniet van je weekend!"
+                    }
+                }
+            },
+            "polite": {
+                "regular": {
+                    "0": "Hallo {info, property, firstName}.",
+                    "1": "Fijne dag {info, property, firstName}!",
+                    "2": "Het is leuk om je opnieuw te zien, {info, property, firstName}!",
+                    "3": "Hey {info, property, firstName}, ik hoop dat het goed met je gaat.",
+                    "4": "Hey {info, property, firstName}.",
+                    "5": "Goeiedag {info, property, firstName}!"
+                },
+                "time-based": {
+                    "day": {
+                        "6": "Goedemorgen, {info, property, firstName}.",
+                        "12": "Goedemiddag, {info, property, firstName}!",
+                        "13": "Goedenamiddag, {info, property, firstName}!",
+                        "18": "Goedenavond, {info, property, firstName}!",
+                        "22": "Goedenacht, {info, property, firstName}."
+                    },
+                    "week": {
+                        "0": "{info, property, firstName}, geniet van je weekend!",
+                        "1": "Geniet van je weeksbegin, {info, property, firstName}.",
+                        "5": "Hey {info, property, firstName}, het is bijna weekend!",
+                        "6": "{info, property, firstName}, geniet van je weekend!"
+                    }
+                }
+            },
+            "ssl": {
+                "valid": "Je applicatie is beveiligd, {info, property, firstName}. Top!",
+                "none": "Hey {info, property, firstName}, gelieve je applicatie te beveiligen met een SSL configuratie.",
+                "expired": "Oh oh {info, property, firstName}, het lijkt erop dat je SSL certificaat vervallen is.",
+                "soon-expire": "Hey {info, property, firstName}, het ziet er naar uit dat je SSL certificaat binnenkort vervalt."
+            }
+        },
+        "label": {
+            "new": "nieuw {propertyName}",
+            "reenternew": "confirmeer nieuw {propertyName}",
+            "set": "{propertyName} instellen?",
+            "help": "toelichting bij \"{propertyName}\"",
+            "description": "beschrijving",
+            "columns": "kolommen",
+            "no-description": "Er is geen beschrijving beschikbaar."
+        },
+        "legend": {
+            "free": "vrij",
+            "occupied": "bezet",
+            "empty": "leeg",
+            "excluded": "uitgesloten",
+            "undefined": "niet gedefinieerd",
+            "disabled": "niet toegestaan"
+        },
+        "login": {
+            "username": "Gebruikersnaam",
+            "password": "Wachtwoord",
+            "submit": "Inloggen"
+        },
+        "map": {
+            "initialisingmap": "kaart initialiseren...",
+            "loadingmap": "kaart laden...",
+            "loadinglayers": "lagen laden...",
+            "ready": "klaar"
+        },
+        "snackbar": {
+            "message": {
+                "invalidCredentials": "De ingevoerde gebruikersnaam & wachtwoord combinatie is ongeldig.",
+                "logonError": "Er is iets fout gegaan tijdens het aanmelden. Probeer het later opnieuw.",
+                "loggedOut": {
+                    "content": "Tot later!",
+                    "title": "Je bent afgemeld"
+                },
+                "sslExpired": "Je SSL certificaat is vervallen. Upload een nieuwe certificaat/sleutel combinatie.",
+                "sslExpireSoon": "Je SSL certificaat zal binnenkort vervallen. Upload een nieuwe certificaat/sleutel combinatie."
+            },
+            "button": {
+                "refresh": "refresh",
+                "show": "toon",
+                "close": "sluit"
+            }
+        },
+        "ssl": {
+            "activeprotocol": {
+                "api": "huidig api protocol",
+                "gui": "huidig gui protocol"
+            },
+            "hasssl": "ssl beschikbaar",
+            "certificate": "certificaat",
+            "key": "sleutel",
+            "issuer": {
+                "organisation": "uitgever (organisatie)",
+                "location": "uitgever (locatie)"
+            },
+            "expirydate": "vervaldag",
+            "upload": {
+                "certificate": "upload nieuw certificaat",
+                "key": "upload nieuwe sleutel"
+            },
+            "secure": {
+                "api": "Beveilig API",
+                "gui": "Beveilig GUI"
+            },
+            "switchprotocol": {
+                "api": "Verander API protocol",
+                "gui": "Verander GUI protocol",
+                "to": "Schakel over naar {protocol}"
+            }
+        },
+        "statistics": {
+            "average": "gemiddelde",
+            "median": "mediaan",
+            "passrate": "slag. perc.",
+            "stddev": "std. dev."
+        },
+        "table": {
+            "info": "info",
+            "list": "lijst",
+            "empty-list": "lege lijst",
+            "add-item": "Voeg item toe",
+            "actions": "acties",
+            "notavailable": "N/B",
+            "unknown": "onbekend",
+            "multi": "..."
+        },
+        "validate": {
+            "minChar": "Moet minstens uit {chars} karakters bestaan",
+            "maxChar": "Maximum {chars} karakters toegestaan",
+            "plainCharOnly": "Enkel gewone karakters zijn toegestaan",
+            "doubleSpace": "Dubbele spaties zijn niet toegestaan",
+            "doubleQuote": "Dubbele aanhalingstekens zijn niet toegestaan",
+            "whitespace": "Spaties zijn niet toegestaan",
+            "lowerCaseOnly": "Enkel kleine letters zijn toegestaan",
+            "upperCaseOnly": "Enkel grote letters zijn toegestaan",
+            "exists": "Dit bestaat reeds",
+            "invalidMail": "Ongeldig e-mailadres",
+            "invalidJSON": "Ongeldige JSON-input",
+            "invalidPhone": "Ongeldig telefoonnummer",
+            "invalidIP": "Ongeldig IP-adres",
+            "invalidMAC": "Ongeldig MAC-adres",
+            "passwordOneSpecialChar": "Wachtwoord moet een speciaal karakter bevatten",
+            "passwordOneUpperCaseChar": "Wachtwoord moet een grote letter bevatten",
+            "passwordOneNumberChar": "Wachtwoord moet een nummer bevatten",
+            "passwordMatching": "Wachtwoorden komen niet overeen",
+            "emptyList": "Lijst mag niet leeg zijn",
+            "emptySelection": "Selectie mag niet leeg zijn",
+            "notInPossibilities": "Is geen selectie uit de lijst van mogelijkheden",
+            "invalidNumber": "Ongeldig nummer",
+            "maxNumber": "Hoogst mogelijke nummer is {number}",
+            "minNumber": "Laagst mogelijke nummer is {number}",
+            "precisionNumber": "Nummer moet afgerond worden op een precisie van {precision}",
+            "emptyInput": "Input mag niet leeg zijn",
+            "combinationExists": "Combinatie bestaat reeds",
+            "secureFileName": "Onveilige bestandsnaam"
+        },
+        "version": {
+            "angular": "angular",
+            "gui": "GUI",
+            "api": "API",
+            "database": "databank",
+            "messaging": "messaging",
+            "python": "python",
+            "webserver": "web server"
+        },
+        "view": {
+            "all": "volledig overzicht",
+            "isolated": "groep overzicht",
+            "own": "eigen overzicht"
+        }
+    },
+    "consumer": {
+        "default": {
+            "eventlogging": "interne event logging consument"
+        }
+    },
+    "dashboard": {
+        "pagetitle": "Overzicht"
+    },
+    "navbar": {
+        "dashboard": "Overzicht",
+        "login": "Inloggen",
+        "settings": "Instellingen",
+        "user": "Gebruikersprofiel",
+        "switch-language": "Wijzig Taal"
+    },
+    "object": {
+        "ActiveSession": {
+            "help": {
+                "intro": "{right, select, own{Je eigen} isolated{Je groep's} other{alle}} actieve sessies worden hier weergegeven. Een actieve sessie wordt opgezet als een gebruiker succesvol inlogt.",
+                "properties": {
+                    "ip": "Het IP-adres van de gebruiker",
+                    "client": "De gebruikte web client (browser)",
+                    "user": "De gebruiker van de sessie",
+                    "creation": "Het tijdstip van de eerste succesvolle login met deze sessie",
+                    "lastActive": "Het tijdstip van het laatste gebruik met deze sessie"
+                }
+            },
+            "modal": {
+                "info": {
+                    "title": "actieve sessie: {item, property, user.firstName} {item, property, user.lastName} ({item, property, ip})"
+                },
+                "edit": {
+                    "title": "wijzig actieve sessie: {item, property, user.firstName} {item, property, user.lastName} ({item, property, ip})"
+                },
+                "delete": {
+                    "title": "ben je zeker dat je deze actieve sessie wil beëindigen?"
+                },
+                "create": {
+                    "title": "creëer actieve sessie"
+                }
+            },
+            "naming": {
+                "singular": "Actieve Sessie",
+                "plural": "Actieve Sessies"
+            },
+            "presentation": {
+                "all": "{item, property, user.firstName} {item, property, user.lastName} ({item, property, ip})",
+                "isolated": "{item, property, user.firstName} {item, property, user.lastName} ({item, property, ip})",
+                "own": "{item, property, ip}"
+            },
+            "properties": {
+                "id": "identificatie",
+                "ip": "IP-adres",
+                "client": "client",
+                "user": "gebruiker",
+                "creation": "eerste aanmelding",
+                "lastActive": "laatst actief"
+            }
+        },
+        "ApiAction": {
+            "help": {
+                "intro": "\"Acties\" zijn operaties die uitgevoerd kunnen worden op objecten via de API. De meest voorkomende acties zijn: creëren (create), verwijderen (delete) en bewerken (edit).",
+                "properties": {
+                    "name": "De naam van de actie"
+                }
+            },
+            "naming": {
+                "singular": "Actie",
+                "plural": "Acties"
+            },
+            "presentation": {
+                "all": "{item, property, name}",
+                "isolated": "{item, property, name}",
+                "own": "{item, property, name}"
+            },
+            "properties": {
+                "id": "identificatie",
+                "name": "naam"
+            }
+        },
+        "ApiObject": {
+            "help": {
+                "intro": "Een \"Object\" is een groepering van data dat een bepaald ding representeert. Dit kan een fysisch of virtueel element zijn. Object data kan opgevraagd worden via de API.",
+                "properties": {
+                    "name": "De naam van het object"
+                }
+            },
+            "naming": {
+                "singular": "Object",
+                "plural": "Objecten"
+            },
+            "presentation": {
+                "all": "{item, property, name}",
+                "isolated": "{item, property, name}",
+                "own": "{item, property, name}"
+            },
+            "properties": {
+                "id": "identificatie",
+                "name": "naam"
+            }
+        },
+        "File": {
+            "help": {
+                "intro": "{right, select, own{Je eigen} isolated{Je groep's} other{alle}} bestanden worden hier weergegeven. Een bestand is een geüpload stuk inhoud (bv. afbeelding, document).",
+                "properties": {
+                    "name": "Het te uploaden bestand",
+                    "reference": "De referentie naar het bestand",
+                    "creation": "Het tijdstip waarop het bestand aangemaakt werd",
+                    "uploader": "De gebruiker die het bestand heeft geupload",
+                    "size": "De grootte van het bestand (in kB)"
+                }
+            },
+            "modal": {
+                "info": {
+                    "title": "bestand: {item, property, name}"
+                },
+                "edit": {
+                    "title": "wijzig bestand: {item, property, name}"
+                },
+                "delete": {
+                    "title": "ben je zeker dat je dit bestand wil verwijderen?"
+                },
+                "create": {
+                    "title": "upload bestand"
+                }
+            },
+            "naming": {
+                "singular": "Bestand",
+                "plural": "Bestanden"
+            },
+            "presentation": {
+                "all": "{item, property, name}",
+                "isolated": "{item, property, name}",
+                "own": "{item, property, name}"
+            },
+            "properties": {
+                "id": "identificatie",
+                "name": "bestand",
+                "reference": "referentie",
+                "creation": "aangemaakt",
+                "uploader": "uploader",
+                "size": "grootte"
+            }
+        },
+        "Function": {
+            "help": {
+                "intro": "{right, select, own{Je eigen} isolated{Je groep's} other{alle}} functies worden hier weergegeven. Een functie is een beroep dat wordt uitgeoefend door een bepaalde gebruiker.",
+                "properties": {
+                    "name": "De naam van de functie"
+                }
+            },
+            "modal": {
+                "info": {
+                    "title": "functie: {item, property, name}"
+                },
+                "edit": {
+                    "title": "wijzig functie: {item, property, name}"
+                },
+                "delete": {
+                    "title": "ben je zeker dat je deze functie wil verwijderen?"
+                },
+                "create": {
+                    "title": "creëer functie"
+                }
+            },
+            "naming": {
+                "singular": "Functie",
+                "plural": "Functies"
+            },
+            "presentation": {
+                "all": "{item, property, name}",
+                "isolated": "{item, property, name}",
+                "own": "{item, property, name}"
+            },
+            "properties": {
+                "id": "identificatie",
+                "name": "naam"
+            }
+        },
+        "Right": {
+            "help": {
+                "intro": "Alle rechten worden hier weergegeven. Een recht wordt gebruikt om toegang te verlenen tot het uitvoeren van acties op objecten aan een bepaalde gebruikers.<br>Er zijn drie types die toegang verlenen:<ul><li><b>Zelf</b>: Staat een groep van gebruikers toe om de geselecteerde actie uit te voeren op het geselecteerde object dat eigendom is van de gebruiker. Dit betekent dat de gebruiker gerelateerd moet zijn aan dit object in een directe manier.<br><i>Voorbeeld: Een toestel waarvan de gebruiker de eigenaar is, de contactgegevens van deze gebruiker, etcetera...</i></li><li><b>Groep</b>: Staat een groep van gebruikers toe om de geselecteerde actie uit te voeren op het geselecteerde object dat eigendom is van de groep waartoe de gebruiker behoort. Dit betekent dat de gebruiker gerelateerd moet zijn aan dit object door de groep waarin hij behoort.<br><i>Voorbeeld: Een toestel waarvan de gebruiker's groep de eigenaar is, de contactgegevens van een collega binnen dezelfde groep, etcetera...</i></li><li><b>Volledig</b>: Staat een groep van gebruikers toe om de geselecteerde actie uit te voeren op het geselecteerde object (zonder limitatie). Dit betekent dat de gebruiker niet gerelateerd moet zijn aan dit object. Er is geen beperking.<br><i>Voorbeeld: Een toestel waarvan een andere groep de eigenaar is, de contactgegevens van een collega in een andere groep, etcetera...</i></li></ul><br><br>Wanneer er geen groep en functie geselecteerd is, dan is het recht van toepassing op <b>alle</b> gebruikers.",
+                "properties": {
+                    "apiobject": "Het object waar het recht toegang to verleent",
+                    "apiaction": "De actie waar het recht toegang to verleent",
+                    "team": "De groep waarop het recht invloed heeft",
+                    "function": "De functie waarop het recht invloed heeft",
+                    "own": "Staat een groep van gebruikers toe om de geselecteerde actie uit te voeren op het geselecteerde object dat eigendom is van de gebruiker",
+                    "isolated": "Staat een groep van gebruikers toe om de geselecteerde actie uit te voeren op het geselecteerde object dat eigendom is van de groep waartoe de gebruiker behoort",
+                    "all": "Staat een groep van gebruikers toe om de geselecteerde actie uit te voeren op het geselecteerde object (zonder limitatie)"
+                }
+            },
+            "modal": {
+                "info": {
+                    "title": "recht: [{item, property, apiobject.name} - {item, property, apiaction.name}]"
+                },
+                "edit": {
+                    "title": "wijzig recht: [{item, property, apiobject.name} - {item, property, apiaction.name}]"
+                },
+                "delete": {
+                    "title": "ben je zeker dat je dit recht wil verwijderen?"
+                },
+                "create": {
+                    "title": "creëer recht"
+                }
+            },
+            "naming": {
+                "singular": "Recht",
+                "plural": "Rechten"
+            },
+            "presentation": {
+                "all": "[{item, property, apiaction} - {item, property, apiobject}]",
+                "isolated": "[{item, property, apiaction} - {item, property, apiobject}]",
+                "own": "[{item, property, apiaction} - {item, property, apiobject}]"
+            },
+            "properties": {
+                "id": "identificatie",
+                "apiobject": "object",
+                "apiaction": "actie",
+                "team": "groep",
+                "function": "functie",
+                "own": "zelf",
+                "isolated": "groep",
+                "all": "volledig"
+            }
+        },
+        "Team": {
+            "help": {
+                "intro": "{right, select, own{Je eigen groep wordt} isolated{Je eigen groep wordt} other{Alle groepen worden}} hier weergegeven. Een groep is een team waar een bepaalde gebruiker in thuishoort.",
+                "properties": {
+                    "name": "De naam van de groep"
+                }
+            },
+            "modal": {
+                "info": {
+                    "title": "groep: {item, property, name}"
+                },
+                "edit": {
+                    "title": "wijzig groep: {item, property, name}"
+                },
+                "delete": {
+                    "title": "ben je zeker dat je deze groep wil verwijderen?"
+                },
+                "create": {
+                    "title": "creëer groep"
+                }
+            },
+            "naming": {
+                "singular": "Groep",
+                "plural": "Groepen"
+            },
+            "presentation": {
+                "all": "{item, property, name}",
+                "isolated": "{item, property, name}",
+                "own": "{item, property, name}"
+            },
+            "properties": {
+                "id": "identificatie",
+                "name": "naam"
+            }
+        },
+        "Translation": {
+            "help": {
+                "intro": "Alle vertalingen worden hier weergegeven. Een vertaling zorgt ervoor dat de GUI in meerdere talen beschikbaar is.",
+                "properties": {
+                    "language": "De taal van de vertaling",
+                    "country": "Het land waarvoor de vertaling bedoeld is",
+                    "flag": "Het vlag-icoon die gebruikt wordt om de vertaling te visualiseren (voor een volledige lijst, zie: https://flagicons.lipis.dev/)",
+                    "translationFile": "De naam van het vertalingsbestand die de inhoud van de vertaling bezit",
+                    "locale": "De locale die gebruikt wordt bij het gebruiken van de vertaling",
+                    "enabled": "Een waarde die aangeeft of de vertaling gebruikt mag/kan worden"
+                }
+            },
+            "modal": {
+                "info": {
+                    "title": "vertaling: {item, property, country} - {item, property, language} ({item, property, translationFile})"
+                },
+                "edit": {
+                    "title": "wijzig vertaling: {item, property, country} - {item, property, language} ({item, property, translationFile})"
+                },
+                "delete": {
+                    "title": "ben je zeker dat je deze vertaling wil verwijderen?"
+                },
+                "create": {
+                    "title": "creëer vertaling"
+                }
+            },
+            "naming": {
+                "singular": "Vertaling",
+                "plural": "Vertalingen"
+            },
+            "presentation": {
+                "all": "{item, property, country} - {item, property, language} ({item, property, translationFile})",
+                "isolated": "{item, property, country} - {item, property, language} ({item, property, translationFile})",
+                "own": "{item, property, country} - {item, property, language} ({item, property, translationFile})"
+            },
+            "properties": {
+                "id": "identificatie",
+                "language": "taal",
+                "country": "lang",
+                "flag": "vlag",
+                "translationFile": "vertalingsbestand",
+                "locale": "locale",
+                "enabled": "actief"
+            }
+        },
+        "User": {
+            "help": {
+                "intro": "{right, select, own{Je eigen gebruiker wordt} isolated{Alle gebruikers van je groep worden} other{Alle gebruikers worden}} hier weergegeven.",
+                "properties": {
+                    "userName": "De gebruikersnaam van de gebruiker",
+                    "firstName": "De voornaam van de gebruiker",
+                    "lastName": "De achternaam van de gebruiker",
+                    "mail": "Het e-mailadres van de gebruiker",
+                    "phone": "Het telefoonnummer van de gebruiker",
+                    "team": "De groep van de gebruiker",
+                    "function": "De functie van de gebruiker",
+                    "creation": "Het tijdstip waarop de gebruiker aangemaakt werd",
+                    "password": "Het wachtwoord van de gebruiker",
+                    "image": "De profielfoto van de gebruiker"
+                }
+            },
+            "modal": {
+                "info": {
+                    "title": "gebruiker: {item, property, firstName} {item, property, lastName}"
+                },
+                "edit": {
+                    "title": "wijzig gebruiker: {item, property, firstName} {item, property, lastName}"
+                },
+                "delete": {
+                    "title": "ben je zeker dat je deze gebruiker wil verwijderen?"
+                },
+                "create": {
+                    "title": "creëer gebruiker"
+                }
+            },
+            "naming": {
+                "singular": "Gebruiker",
+                "plural": "Gebruikers"
+            },
+            "presentation": {
+                "all": "{item, property, firstName} {item, property, lastName} ({item, property, team.name})",
+                "isolated": "{item, property, firstName} {item, property, lastName} ({item, property, team.name})",
+                "own": "{item, property, firstName} {item, property, lastName}"
+            },
+            "properties": {
+                "id": "identificatie",
+                "userName": "gebruikersnaam",
+                "firstName": "voornaam",
+                "lastName": "achternaam",
+                "mail": "e-mail",
+                "phone": "telefoon",
+                "team": "groep",
+                "function": "functie",
+                "creation": "aangemaakt",
+                "password": "wachtwoord",
+                "image": "profielfoto"
+            }
+        }
+    },
+    "eula": {
+        "pagetitle": "Licentieovereenkomst voor eindgebruikers"
+    },
+    "leftbar": {
+        "settings": {
+            "version": "Versie",
+            "users": "Gebruikers",
+            "teams": "Groepen",
+            "functions": "Functies",
+            "rights": "Rechten",
+            "languages": "Vertalingen",
+            "ssl": "SSL",
+            "crud": "CRUD"
+        },
+        "user": {
+            "info": "Gebruikersinfo",
+            "timezone": "Tijdszone",
+            "language": "Taal",
+            "sessions": "Sessies",
+            "logout": "Afmelden"
+        }
+    },
+    "modal": {
+        "config": {
+            "config": {
+                "title": "{item, property, name} configuratie"
+            },
+            "log": {
+                "title": "{item, property, name} log bestanden"
+            }
+        },
+        "service": {
+            "title": "{item, property, name} services",
+            "status": {
+                "running": "actief",
+                "dead": "gestopt"
+            }
+        }
+    },
+    "producer": {
+        "default": {
+            "internal": "interne producent"
+        }
+    },
+    "settings": {
+        "version": {
+            "pagetitle": "Versie"
+        },
+        "right": {
+            "pagetitle": "Rechten"
+        },
+        "user": {
+            "pagetitle": "Gebruikers"
+        },
+        "team": {
+            "pagetitle": "Groepen"
+        },
+        "function": {
+            "pagetitle": "Functies"
+        },
+        "language": {
+            "pagetitle": "Vertalingen"
+        },
+        "ssl": {
+            "pagetitle": "SSL",
+            "security": "beveiligingsgegevens",
+            "certificate": "certificaatgegevens",
+            "upload-cert": "Upload een nieuw certificaat",
+            "upload-key": "Upload een nieuwe sleutel",
+            "questions": "Heb je nog vragen?",
+            "contact-us": "Contacteer ons"
+        },
+        "crud": {
+            "pagetitle": "CRUD",
+            "selectobject": "Selecteer Object"
+        },
+        "pagetitle": "Settings"
+    },
+    "user": {
+        "info": {
+            "pagetitle": "Gebruikersinfo",
+            "personal-details": "je persoonlijke gegevens",
+            "timezone": "je tijdszone",
+            "language": "je voorkeurstaal",
+            "session": "je actieve sessies",
+            "session-message": "Momenteel zijn er {amount} sessies actief met jouw account.",
+            "logout": "afmelden"
+        },
+        "language": {
+            "pagetitle": "Interfacetaal"
+        },
+        "session": {
+            "pagetitle": "Actieve Sessies"
+        },
+        "timezone": {
+            "pagetitle": "Tijdszone",
+            "location": "locatie",
+            "timezone": "tijdszone",
+            "time": "tijd",
+            "locale": "locale"
+        },
+        "pagetitle": "Gebruikersinstellingen"
+    }
+}
